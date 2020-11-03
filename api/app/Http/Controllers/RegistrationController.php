@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -18,7 +19,9 @@ class RegistrationController extends Controller
     const LASTNAME = 3;
     const PASSWORD = 8;
 
-    const URL_CONFIRM = "http://127.0.0.1:8000/confirmed";
+    const URL_CONFIRM = "http://127.0.0.1:3000/confirmed";
+    const URL_REDIRECT = "http://127.0.0.1:3000";
+    const URL_PROFIL = "http://127.0.0.1:3000/profil";
 
     public function __construct(Request $request)
     {
@@ -53,7 +56,7 @@ class RegistrationController extends Controller
             $id = DB::table('users')->where('email', $email)->value('id');
             $this->sendMail($email, $id, $token);
         }else{
-            return $isValid;
+            return response()->json($isValid);
         }
     }
 
@@ -63,9 +66,10 @@ class RegistrationController extends Controller
         if((int)$id === $idBDD && $token === $tokenBDD){
             $this->request->session()->put('user_id', $idBDD);
             DB::table('users')->where('id', $idBDD)->update(['token' => 'ok']);
-            return redirect()->action('App\Http\Controllers\ProfilController@create');
+            $user = DB::table('users')->find($idBDD);
+            return response()->json($user);
         }else{
-            return redirect()->action('App\Http\Controllers\BaseController@create');
+            return response()->json(['error' => 'badconfirmed']);
         }
     }
 

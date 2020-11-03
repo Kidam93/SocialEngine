@@ -17,15 +17,14 @@ use App\Http\Controllers\RegistrationController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
+// HOME
 Route::get('/', [BaseController::class, 'create']);
 Route::post('/', [BaseController::class, 'store']);
 Route::get('/registration', [RegistrationController::class, 'create']);
 Route::post('/registration', [RegistrationController::class, 'store']);
 Route::get('/confirmed/{id}-{token}', [RegistrationController::class, 'confirm']);
+// SESSION VERIFICATION USER
+Route::get('/user', [BaseController::class, 'findUser']);
 // PROFIL
 Route::get('/profil', [ProfilController::class, 'create']);
-Route::post('/profil', [ProfilController::class, 'disconnected']);
+Route::post('/profil-disconnected', [ProfilController::class, 'disconnected']);

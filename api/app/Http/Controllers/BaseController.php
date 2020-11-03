@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -11,13 +12,19 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
 class BaseController extends Controller
 {
+    const URL_REDIRECT = "http://127.0.0.1:3000";
+    const URL_PROFIL = "http://127.0.0.1:3000/profil";
+
+    const PASSWORD = 8;
+
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
     public function create(){
-        return view('home');
+        $userId = $this->request->session()->get('user_id');
+        return response()->json(["ok good session", $userId]);
     }
 
     public function store(Request $request){
@@ -30,7 +37,18 @@ class BaseController extends Controller
         if($email === $email && $hash === true){
             $idBDD = DB::table('users')->where('email', $email)->value('id');
             $this->request->session()->put('user_id', $idBDD);
-            return redirect()->action('App\Http\Controllers\ProfilController@create');
+            $user = DB::table('users')->find($idBDD);
+            return response()->json($user);
+        }else{
+            return response()->json(['errors' => "l'email ou le mot de passe est incorecte"]);
+        }
+    }
+
+    public function findUser(){
+        $userId = $this->request->session()->get('user_id');
+        if(!empty($userId)){
+            $user = DB::table('users')->find($userId);
+            return response()->json("ok good session");
         }
     }
 }
