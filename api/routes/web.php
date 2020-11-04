@@ -24,7 +24,6 @@ Route::get('/registration', [RegistrationController::class, 'create']);
 Route::post('/registration', [RegistrationController::class, 'store']);
 Route::get('/confirmed/{id}-{token}', [RegistrationController::class, 'confirm']);
 // SESSION VERIFICATION USER
-Route::get('/user', [BaseController::class, 'findUser']);
+Route::get('/profil', [ProfilController::class, 'findUser']);
 // PROFIL
-Route::get('/profil', [ProfilController::class, 'create']);
-Route::post('/profil-disconnected', [ProfilController::class, 'disconnected']);
+Route::get('/profil-disconnected', [ProfilController::class, 'disconnectedUser']);

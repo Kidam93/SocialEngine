@@ -18,8 +18,9 @@ class RegistrationController extends Controller
     const FIRSTNAME = 3;
     const LASTNAME = 3;
     const PASSWORD = 8;
-
+    // test port 8000
     const URL_CONFIRM = "http://127.0.0.1:3000/confirmed";
+    // 
     const URL_REDIRECT = "http://127.0.0.1:3000";
     const URL_PROFIL = "http://127.0.0.1:3000/profil";
 

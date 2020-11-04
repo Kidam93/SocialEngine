@@ -12,29 +12,21 @@ class ProfilController extends Controller
         $this->request = $request;
     }
 
-    public function create(){
+    public function findUser(){
         $userId = $this->request->session()->get('user_id');
-        // dd($userId);
-        if($userId !== null){
-            // return view('profil');
-            // $idBDD = DB::table('users')->where('email', $email)->value('id');
-            // $this->request->session()->put('user_id', $idBDD);
-            // $user = DB::table('users')->find($idBDD);
-            // return response()->json($user);
-
-            return response()->json($userId);
-        }elseif($userId === null){
-            // return redirect()->action('App\Http\Controllers\BaseController@create');
-            return response()->json(['error' => 'redirect']);
-        } 
+        if(!empty($userId)){
+            $user = DB::table('users')->find($userId);
+            return response()->json($user);
+        }else{
+            return response()->json("noconnected");
+        }
     }
 
-    public function disconnected(){
-        if($this->request->request->get('submit') === 'submit'){
-            $this->request->session()->put('user_id', null);
-            $this->request->session()->flush();
-            // dd($this->request->session()->get('user_id'));
-            return response()->json(['submit' => 'disconnected']);
+    public function disconnectedUser(){
+        $userId = $this->request->session()->get('user_id');
+        if(!empty($userId)){
+            $this->request->session()->put('user_id', NULL);
+            return response()->json(['errors' => "l'email ou le mot de passe est incorrecte"]);
         }
     }
 }

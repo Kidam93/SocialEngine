@@ -10,21 +10,47 @@ import { PartialNavbar } from '../partials/PartialNavbar';
 export class Profil extends Component {
 
   constructor(props) {
-      super(props);
+    super(props);
+    this.state = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        created: '',
+        redirection: null
+    };
   }
 
-  // componentDidMount(){
-  //     Axios.get('http://127.0.0.1:8000/')
-  //         .then((res) => {
-  //             console.log("get", res)
-  //         })
-  //         .catch((error) => {
-  //             console.log("error");
-  //         })
-  // }
+  componentDidMount(){
+      Axios.get('http://127.0.0.1:8000/profil', {withCredentials: true})
+          .then((res) => {
+              if(res.data === "noconnected"){
+                this.setState({
+                  redirection: true
+                });
+              }else{
+                  this.setState({
+                    firstName: res.data.firstname,
+                    lastName: res.data.lastname,
+                    email: res.data.email,
+                    created: res.data.created_at,
+                    redirection: false
+                });
+              }
+          })
+          .catch((error) => {
+              console.log("error");
+          })
+  }
+
+  componentWillUnmount() {
+
+  }
 
     render() {
-    return <React.Fragment>
+    if (this.state.redirection === true) {
+      return <Redirect to='/' />;
+    }else if(this.state.redirection === false){
+      return <React.Fragment>
         <body class="bg-light">
           <PartialNavbar />
       <div class="nav-scroller bg-white shadow-sm">
@@ -48,8 +74,8 @@ export class Profil extends Component {
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
           <img class="mr-3" src="/docs/4.5/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48" />
           <div class="lh-100">
-            <h6 class="mb-0 text-white lh-100">Bootstrap</h6>
-            <small>Since 2011</small>
+          <h6 class="mb-0 text-dark lh-100">{this.state.firstName} {this.state.lastName}</h6>
+          <small class="text-dark">{this.state.created}</small>
           </div>
         </div>
 
@@ -120,5 +146,8 @@ export class Profil extends Component {
       </main>
       </body>
     </React.Fragment>
+    }else{
+      return <React.Fragment></React.Fragment>
+    }
   }
 }

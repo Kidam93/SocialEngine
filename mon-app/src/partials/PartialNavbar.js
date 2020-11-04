@@ -24,35 +24,27 @@ export class PartialNavbar extends Component{
           redirection: null,
           token: null,
       };
+
+      this.handleLogout = this.handleLogout.bind(this);
   }
 
-  componentDidMount(){
-      const id = localStorage.getItem('id');
-      const token = localStorage.getItem('token');
-      if(id === null && token === null){
+  async handleLogout(event) {
+      Axios.get('http://127.0.0.1:8000/profil-disconnected', {withCredentials: true})
+      .then((res) => {
           this.setState({
-              redirection: false,
+            redirection: true
           });
-      }
-  }
-
-  logout = () => {
-    localStorage.setItem('id', null);
-    localStorage.setItem('token', null);
-    localStorage.clear();
-    const id = localStorage.getItem('id');
-    const token = localStorage.getItem('token');
-    if(id === null && token === null){
-        this.setState({
-            redirection: false,
-        });
-    }
+      })
+      .catch((error) => {
+          console.log("error");
+      })
   }
 
     render(){
-      if (this.state.redirection === false) {
+      if (this.state.redirection === true) {
         return <Redirect to='/' />;
       }
+      
       return <React.Fragment>
         <Navbar bg="light" expand="lg">
           <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
@@ -68,25 +60,14 @@ export class PartialNavbar extends Component{
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
               </NavDropdown>
-              { localStorage.getItem('token') ? 
               <>
                 <li class="nav-item">
                   <Link class="nav-link" to="/pictures/new">Poster une photo</Link>
                 </li>
                 <li class="nav-item">
-                  <button class="btn btn-danger" onClick={this.logout}>Déconnexion</button>
+                  <button class="btn btn-danger" onClick={this.handleLogout}>Déconnexion</button>
                 </li>
               </>
-             : 
-              <>
-                 <li class="nav-item">
-                  <Link class="nav-link" to="/pictures/new">Poster une photo</Link>
-                </li>
-                <li class="nav-item">
-                  <Link class="nav-link" to="/">Connexion</Link>
-                </li>
-              </>
-              }
             </Nav>
             <Form inline>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" />

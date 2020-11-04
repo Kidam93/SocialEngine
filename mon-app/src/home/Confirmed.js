@@ -20,15 +20,13 @@ export class Confirmed extends Component {
         const id = this.props.match.params.id;
         const token = this.props.match.params.token;
 
-        Axios.get('http://127.0.0.1:8000/confirmed/'+id+'-'+token)
+        Axios.get('http://127.0.0.1:8000/confirmed/'+id+'-'+token, {withCredentials: true})
             .then((res) => {
                 if(res.data.error === "badconfirmed"){
                     this.setState({
                         redirection: true
                     })
                 }else{
-                    localStorage.setItem('id', res.data.id)
-                    localStorage.setItem('token', res.data.token)
                     this.setState({
                         redirection: false
                     })

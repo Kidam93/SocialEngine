@@ -24,7 +24,8 @@ class BaseController extends Controller
 
     public function create(){
         $userId = $this->request->session()->get('user_id');
-        return response()->json(["ok good session", $userId]);
+        $userToken = DB::table('users')->where('id', $userId)->value('token');
+        return response()->json([$userId, $userToken]);
     }
 
     public function store(Request $request){
@@ -40,15 +41,8 @@ class BaseController extends Controller
             $user = DB::table('users')->find($idBDD);
             return response()->json($user);
         }else{
-            return response()->json(['errors' => "l'email ou le mot de passe est incorecte"]);
-        }
-    }
-
-    public function findUser(){
-        $userId = $this->request->session()->get('user_id');
-        if(!empty($userId)){
-            $user = DB::table('users')->find($userId);
-            return response()->json("ok good session");
+            $this->request->session()->put('user_id', NULL);
+            return response()->json(['errors' => "l'email ou le mot de passe est incorrecte"]);
         }
     }
 }
