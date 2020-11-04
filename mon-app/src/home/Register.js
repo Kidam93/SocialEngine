@@ -105,9 +105,9 @@ export class Register extends Component {
         return <Redirect to='/profil' />;
     }else if(this.state.redirection === false){
         return <React.Fragment>
-            <body class="bg-light">
-                <div class="container mb-4">
-            <div class="py-5 text-center">
+            <body class="bg-light" className="body">
+                <div class="container">
+            {/* <div class="py-5 text-center">
             <nav class="nav nav-masthead justify-content-center">
                 <Link to="/">Home</Link>
                 <Link to="/register">Sinscrire</Link>
@@ -115,21 +115,34 @@ export class Register extends Component {
             <h3 class="masthead-brand"><a href="">Cover</a></h3>
                 <h2>Registration form</h2>
                 <p class="lead">SocialEngine welcomes you</p>
+            </div> */}
+            <div class="cover-container d-flex p-3 mx-auto flex-column mb-4">
+            <header class="masthead mb-auto">
+                <div class="inner mb-4">
+                <h3 class="masthead-brand">Cover</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <Link to="/">Home</Link>
+                    <Link to="/register">Sinscrire</Link>
+                    {/* <a class="nav-link" href="#">Mot de passe oublié</a> */}
+                </nav>
+                </div>
+            </header>
             </div>
+            <div className="space"></div>
+            <h1 class="cover-heading mt-4" className="title">Registration</h1>
+            <p class="lead">Share anything and everything with anyone</p>
             <div class="row justify-content-center">
                 <div class="col-md-8 order-md-1">
-                <form class="needs-validation" onSubmit={this.handleSubmit}>
+                <form class="needs-validation mr-4 ml-4" onSubmit={this.handleSubmit}>
                     <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="firstName">First name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value={this.state.firstName} onChange={this.handleFirstNameChange} name="firstName" />
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="firstName" placeholder="Firstname" value={this.state.firstName} onChange={this.handleFirstNameChange} name="firstName" />
                         <div class="invalid-feedback">
                         Valid first name is required.
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="lastName">Last name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value={this.state.lastName} onChange={this.handleLastNameChange} name="lastName" />
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="lastName" placeholder="Lastname" value={this.state.lastName} onChange={this.handleLastNameChange} name="lastName" />
                         <div class="invalid-feedback">
                         Valid last name is required.
                         </div>
@@ -137,21 +150,18 @@ export class Register extends Component {
                     </div>
 
                     <div class="mb-3">
-                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleEmailChange} name="email" />
+                    <input type="email" class="form-control" id="email" placeholder="email" value={this.state.email} onChange={this.handleEmailChange} name="email" />
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
                     </div>
 
                     <div class="mb-3">
-                    <label for="address2">Password<span class="text-muted"></span></label>
-                    <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" value={this.state.password} onChange={this.handlePasswordChange} name="password" />
+                    <input type="text" class="form-control" id="address2" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} name="password" />
                     </div>
 
                     <div class="mb-3">
-                    <label for="address2">Password confirmed<span class="text-muted"></span></label>
-                    <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" value={this.state.passwordConfirmed} onChange={this.handlePasswordConfirmedChange} name="passwordConfirmed" />
+                    <input type="text" class="form-control" id="address2" placeholder="Confirmed password" value={this.state.passwordConfirmed} onChange={this.handlePasswordConfirmedChange} name="passwordConfirmed" />
                     </div>
 
                     <hr class="mb-4" />
@@ -164,18 +174,10 @@ export class Register extends Component {
                     <label class="custom-control-label" for="save-info">Save this information for next time</label>
                     </div>
                     <hr class="mb-4" />
-                    <button class="btn btn-primary btn-lg btn-block mb-4" type="submit">Registration</button>
+                    <button class="btn btn-lg btn-block" className="btn-register" type="submit">Registration</button>
                 </form>
                 </div>
             </div>
-            <footer class="my-5 pt-5 text-muted text-center text-small">
-                <p class="mb-1">&copy; 2017-2020 Company Name</p>
-                <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Privacy</a></li>
-                <li class="list-inline-item"><a href="#">Terms</a></li>
-                <li class="list-inline-item"><a href="#">Support</a></li>
-                </ul>
-            </footer>
             </div>
             </body>
         </React.Fragment>

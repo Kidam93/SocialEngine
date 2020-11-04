@@ -110,7 +110,7 @@ export class Login extends Component {
             </header>
 
             <main role="main" class="inner cover">
-                <h1 class="cover-heading">SocialEngine</h1>
+                <h1 class="cover-heading">Social<span className="E">E</span>ngine</h1>
                 <p class="lead">
         Share anything and everything with anyone</p>
                 <p class="lead">
@@ -129,7 +129,7 @@ export class Login extends Component {
                     <input type="checkbox" value="remember-me" name="remember" /> Remember me
                     </label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-lg btn-block" className="btn-pink" type="submit">Sign in</button>
                 </form>
                 </p>
             </main>

@@ -96,7 +96,7 @@ font-weight: 700;
 /*Footer*/
 .mastfoot {
     text-align: center;
-color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .5);
 }
 /* form */
 .form-signin{
@@ -125,3 +125,14 @@ input{
     }
 }
 /* endform */
+.E{
+    color:rgb(220, 157, 167);
+}
+
+.btn-pink{
+    width: 200px;
+    height: 45px;
+    border: transparent;
+    border-radius: 7px;
+    background-color: pink;
+}
