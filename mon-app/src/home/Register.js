@@ -100,7 +100,8 @@ export class Register extends Component {
     }
 
     render() {
-
+    // if is_connect === true return /profil
+    
     if (this.state.redirection === true) {
         return <Redirect to='/profil' />;
     }else if(this.state.redirection === false){

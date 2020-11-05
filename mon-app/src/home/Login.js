@@ -62,36 +62,70 @@ export class Login extends Component {
         })
     }
 
+    // async handleSubmit(event) {
+    //     event.preventDefault();
+    //     let data = new FormData()
+    //     data.set('email', this.state.email)
+    //     data.set('password', this.state.password)
+    //     Axios.post('http://127.0.0.1:8000', data, {withCredentials: true})
+    //         .then(res => {
+    //             if(res.data.errors !== undefined){
+    //                 this.setState({
+    //                     redirection: false,
+    //                     error: res.data.errors
+    //                 })
+    //             }else{
+    //                 if((res.data.id !== null || res.data.id !== undefined) && res.data.token === "ok"){
+    //                     // localStorage.setItem('redirect_speed', 'redirect');
+    //                     this.setState({
+    //                         id: res.data.id,
+    //                         token: res.data.token,
+    //                         redirection: true,
+    //                         error: "connexion..."
+    //                     });
+    //                 }
+    //             }
+    //         })
+    //         .catch(error => {
+    //             // console.log(error.response)
+    //         })
+    // }
+
     async handleSubmit(event) {
         event.preventDefault();
-        let data = new FormData()
-        data.set('email', this.state.email)
-        data.set('password', this.state.password)
-        Axios.post('http://127.0.0.1:8000', data, {withCredentials: true})
-            .then(res => {
-                if(res.data.errors !== undefined){
-                    this.setState({
-                        redirection: false,
-                        error: res.data.errors
-                    })
-                }else{
-                    if((res.data.id !== null || res.data.id !== undefined) && res.data.token === "ok"){
-                        // localStorage.setItem('redirect_speed', 'redirect');
-                        this.setState({
-                            id: res.data.id,
-                            token: res.data.token,
-                            redirection: true,
-                            error: "connexion..."
-                        });
-                    }
-                }
-            })
-            .catch(error => {
-                // console.log(error.response)
-            })
+        let data = new FormData(event.target)
+        const response = await fetch('http://127.0.0.1:8000', {
+            method: 'POST',
+            body: data,
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+        data = response.json()
+        data.then(res => {
+            console.log(res)
+            if(res.errors){
+                console.log("incorrecte", res.errors)
+            }else{
+                // if(res.token === "ok"){
+                //     
+                // }
+
+                console.log("correcte", res)
+                this.setState({
+                    id: res.id,
+                    token: res.token,
+                    redirection: true,
+                    error: "connexion..."
+                });
+            }
+        })
     }
 
     render() {
+    // if is_connect === true return /profil
+    
     if (this.state.redirection === true) {
         return <Redirect to='/profil' />;
     }else if(this.state.redirection === false){

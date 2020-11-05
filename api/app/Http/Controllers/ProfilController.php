@@ -13,13 +13,16 @@ class ProfilController extends Controller
     }
 
     public function findUser(){
-        $userId = $this->request->session()->get('user_id');
-        if(!empty($userId)){
-            $user = DB::table('users')->find($userId);
-            return response()->json($user);
-        }else{
-            return response()->json("noconnected");
-        }
+        // $userId = $this->request->session()->get('user_id');
+        // if(!empty($userId)){
+        //     $user = DB::table('users')->find($userId);
+        //     return response()->json($user);
+        // }else{
+        //     return response()->json("noconnected", $userId);
+        // }
+        // session_start();
+        // $_SESSION['id']
+        return response()->json(['session' => $_SESSION]);
     }
 
     public function disconnectedUser(){

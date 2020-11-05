@@ -9,6 +9,8 @@ import { PartialNavbar } from '../partials/PartialNavbar';
 
 export class Profil extends Component {
 
+  // state is_connected redux
+
   constructor(props) {
     super(props);
     this.state = {
@@ -20,22 +22,34 @@ export class Profil extends Component {
     };
   }
 
+  // componentDidMount(){
+  //     Axios.get('http://127.0.0.1:8000/profil' , {withCredentials: true})
+  //         .then((res) => {
+  //             if(res.data === "noconnected"){
+  //               this.setState({
+  //                 redirection: true
+  //               });
+  //             }else{
+  //                 this.setState({
+  //                   firstName: res.data.firstname,
+  //                   lastName: res.data.lastname,
+  //                   email: res.data.email,
+  //                   created: res.data.created_at,
+  //                   redirection: false
+  //                   // is_connected = true
+  //               });
+  //             }
+  //             console.log(res)
+  //         })
+  //         .catch((error) => {
+  //             console.log("error");
+  //         })
+  // }
+
   componentDidMount(){
-      Axios.get('http://127.0.0.1:8000/profil', {withCredentials: true})
+      Axios.get('http://127.0.0.1:8000/profil' , {withCredentials: true})
           .then((res) => {
-              if(res.data === "noconnected"){
-                this.setState({
-                  redirection: true
-                });
-              }else{
-                  this.setState({
-                    firstName: res.data.firstname,
-                    lastName: res.data.lastname,
-                    email: res.data.email,
-                    created: res.data.created_at,
-                    redirection: false
-                });
-              }
+              console.log(res)
           })
           .catch((error) => {
               console.log("error");
@@ -48,7 +62,8 @@ export class Profil extends Component {
 
     render() {
     if (this.state.redirection === true) {
-      return <Redirect to='/' />;
+      // return <Redirect to='/' />;
+      return <div></div>
     }else if(this.state.redirection === false){
       return <React.Fragment>
         <body class="bg-light">
