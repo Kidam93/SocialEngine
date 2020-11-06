@@ -14,39 +14,15 @@ export class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: null,
             email: '',
             password: '',
-            token: null,
-            redirection: null,
+            redirection: false,
             error: 'Entrer vos identifiants',
         };
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount(){
-        Axios.get('http://127.0.0.1:8000', {withCredentials: true})
-            .then((res) => {
-                if(res.data[0] !== null && res.data[1] === "ok"){
-                    this.setState({
-                        redirection: true
-                    });
-                }else{
-                    this.setState({
-                        redirection: false
-                    });
-                }
-            })
-            .catch((error) => {
-                console.log("error");
-            })
-    }
-
-    componentWillUnmount() {
-
     }
 
     handleEmailChange(event) {
@@ -62,35 +38,6 @@ export class Login extends Component {
         })
     }
 
-    // async handleSubmit(event) {
-    //     event.preventDefault();
-    //     let data = new FormData()
-    //     data.set('email', this.state.email)
-    //     data.set('password', this.state.password)
-    //     Axios.post('http://127.0.0.1:8000', data, {withCredentials: true})
-    //         .then(res => {
-    //             if(res.data.errors !== undefined){
-    //                 this.setState({
-    //                     redirection: false,
-    //                     error: res.data.errors
-    //                 })
-    //             }else{
-    //                 if((res.data.id !== null || res.data.id !== undefined) && res.data.token === "ok"){
-    //                     // localStorage.setItem('redirect_speed', 'redirect');
-    //                     this.setState({
-    //                         id: res.data.id,
-    //                         token: res.data.token,
-    //                         redirection: true,
-    //                         error: "connexion..."
-    //                     });
-    //                 }
-    //             }
-    //         })
-    //         .catch(error => {
-    //             // console.log(error.response)
-    //         })
-    // }
-
     async handleSubmit(event) {
         event.preventDefault();
         let data = new FormData(event.target)
@@ -104,30 +51,35 @@ export class Login extends Component {
         })
         data = response.json()
         data.then(res => {
-            console.log(res)
             if(res.errors){
-                console.log("incorrecte", res.errors)
-            }else{
-                // if(res.token === "ok"){
-                //     
-                // }
-
-                console.log("correcte", res)
                 this.setState({
-                    id: res.id,
-                    token: res.token,
+                    redirection: false,
+                    error: res.errors
+                });
+            }else if(res.valid.token !== "ok"){
+                this.setState({
+                    redirection: false,
+                    error: "Veuillez confirmé votre compte par email"
+                });
+            }else{
+                this.setState({
+                    user: res.valid,
                     redirection: true,
-                    error: "connexion..."
+                    error: "Connexion..."
                 });
             }
         })
     }
 
     render() {
-    // if is_connect === true return /profil
+    // redux state user
+    console.log("user", this.state.user)
     
+    // console.log(props)
+    // 
     if (this.state.redirection === true) {
-        return <Redirect to='/profil' />;
+        // return <Redirect to='/profil' />;
+        return <div>{this.state.user.id}</div>
     }else if(this.state.redirection === false){
         return <React.Fragment>
             <div class="text-center" className="body">
@@ -176,11 +128,7 @@ export class Login extends Component {
             </div>
             </div>
         </React.Fragment>
-    }else{
-        // LOADER
-        return <React.Fragment></React.Fragment>
     }
-    
   }
 }
 

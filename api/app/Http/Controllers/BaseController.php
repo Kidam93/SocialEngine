@@ -24,9 +24,9 @@ class BaseController extends Controller
     }
 
     public function create(){
-        $userId = $this->request->session()->get('user_id');
-        $userToken = DB::table('users')->where('id', $userId)->value('token');
-        return response()->json([$userId, $userToken]);
+        // $userId = $this->request->session()->get('user_id');
+        // $userToken = DB::table('users')->where('id', $userId)->value('token');
+        return response()->json(['create' => null]);
     }
 
     public function store(Request $request){
@@ -38,20 +38,10 @@ class BaseController extends Controller
         $hash = password_verify($password, $passwordBDD);
         if($email === $email && $hash === true){
             $idBDD = DB::table('users')->where('email', $email)->value('id');
-            // $this->request->session()->put('user_id', $idBDD);
-            // $user = DB::table('users')->find($idBDD);
-            // return response()->json($user);
-            // TEST SESSION
-            session_start();
-            $_SESSION['id'] = $idBDD;
-            // $userId = $this->request->session()->get('user_id');
-            return response()->json(['valide' => $_SESSION['id']]);
+            $user = DB::table('users')->find($idBDD);
+            return response()->json(['valid' => $user]);
         }else{
-            // $this->request->session()->put('user_id', NULL);
             return response()->json(['errors' => "l'email ou le mot de passe est incorrecte"]);
-            // TEST SESSION
-            // $userId = $this->request->session()->get('user_id');
-            // return $this->response()->json("pas bon");
         }
     }
 }

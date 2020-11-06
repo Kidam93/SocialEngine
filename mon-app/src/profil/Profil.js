@@ -18,46 +18,8 @@ export class Profil extends Component {
         lastName: '',
         email: '',
         created: '',
-        redirection: null
+        redirection: false
     };
-  }
-
-  // componentDidMount(){
-  //     Axios.get('http://127.0.0.1:8000/profil' , {withCredentials: true})
-  //         .then((res) => {
-  //             if(res.data === "noconnected"){
-  //               this.setState({
-  //                 redirection: true
-  //               });
-  //             }else{
-  //                 this.setState({
-  //                   firstName: res.data.firstname,
-  //                   lastName: res.data.lastname,
-  //                   email: res.data.email,
-  //                   created: res.data.created_at,
-  //                   redirection: false
-  //                   // is_connected = true
-  //               });
-  //             }
-  //             console.log(res)
-  //         })
-  //         .catch((error) => {
-  //             console.log("error");
-  //         })
-  // }
-
-  componentDidMount(){
-      Axios.get('http://127.0.0.1:8000/profil' , {withCredentials: true})
-          .then((res) => {
-              console.log(res)
-          })
-          .catch((error) => {
-              console.log("error");
-          })
-  }
-
-  componentWillUnmount() {
-
   }
 
     render() {
@@ -161,8 +123,6 @@ export class Profil extends Component {
       </main>
       </body>
     </React.Fragment>
-    }else{
-      return <React.Fragment></React.Fragment>
     }
   }
 }
