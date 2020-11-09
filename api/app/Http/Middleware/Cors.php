@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class Cors
 {
-    const URL = "http://localhost:3000";
+    const URL = "http://127.0.0.1:3000";
 
     /**
      * Handle an incoming request.

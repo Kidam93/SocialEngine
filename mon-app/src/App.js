@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import {Login} from './home/Login.js';
 import {Register} from './home/Register';
+import {Disconnected} from './home/Disconnected';
 import {Profil} from './profil/Profil.js';
 import {
   BrowserRouter as Router,
@@ -28,6 +29,9 @@ function App() {
           </Route>
           <Route path="/profil">
             <Profil id={setId} />
+          </Route>
+          <Route path="/disconnected">
+            <Disconnected id={setId} />
           </Route>
           <Route path='/confirmed/:id-:token' component={Confirmed} />
         </Switch>

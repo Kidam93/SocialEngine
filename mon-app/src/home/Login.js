@@ -62,6 +62,7 @@ export class Login extends Component {
                     error: "Veuillez confirmé votre compte par email"
                 });
             }else{
+                localStorage.setItem('auth', res.valid.auth)
                 this.setState({
                     user: res.valid,
                     redirection: true,
@@ -72,15 +73,12 @@ export class Login extends Component {
     }
 
     render() {
-    // redux state user
-    console.log("user", this.state.user)
-    
-    // console.log(props)
-    // 
-    if (this.state.redirection === true) {
-        // return <Redirect to='/profil' />;
-        return <div>{this.state.user.id}</div>
-    }else if(this.state.redirection === false){
+    const auth = localStorage.getItem('auth');
+    console.log(auth);
+
+    if (auth) {
+        return <Redirect to='/profil' />;
+    }else{
         return <React.Fragment>
             <div class="text-center" className="body">
             <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -97,8 +95,7 @@ export class Login extends Component {
 
             <main role="main" class="inner cover">
                 <h1 class="cover-heading">Social<span className="E">E</span>ngine</h1>
-                <p class="lead">
-        Share anything and everything with anyone</p>
+                <p class="lead">Share anything and everything with anyone</p>
                 <p class="lead">
 
                 {this.state.error}

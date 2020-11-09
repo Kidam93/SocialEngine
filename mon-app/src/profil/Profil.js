@@ -23,10 +23,9 @@ export class Profil extends Component {
   }
 
     render() {
-    if (this.state.redirection === true) {
-      // return <Redirect to='/' />;
-      return <div></div>
-    }else if(this.state.redirection === false){
+    const auth = localStorage.getItem('auth');
+    console.log(auth);
+    if(auth !== null){
       return <React.Fragment>
         <body class="bg-light">
           <PartialNavbar />
@@ -123,6 +122,8 @@ export class Profil extends Component {
       </main>
       </body>
     </React.Fragment>
+    }else{
+      return <Redirect to='/'/>;
     }
   }
 }

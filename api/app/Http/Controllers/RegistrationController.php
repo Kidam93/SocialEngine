@@ -44,18 +44,21 @@ class RegistrationController extends Controller
         if(empty($isValid)){
             // WRITE SQL INSERT DATA IN USER TABLE 
             $token = self::generateToken(60);
+            $auth = self::generateToken(40);
             DB::table('users')->insert(
                 ['firstname' => $firstName, 
                 'lastname' => $lastName,
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'token' => $token,
+                'auth' => $auth,
                 'created_at' => new \DateTime(),
                 'updated_at' => new \DateTime()]
             );
             // SEND MAIL
             $id = DB::table('users')->where('email', $email)->value('id');
             $this->sendMail($email, $id, $token);
+            return response()->json(['auth' => $auth]);
         }else{
             return response()->json($isValid);
         }

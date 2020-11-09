@@ -27,6 +27,7 @@ export class Confirmed extends Component {
                         redirection: true
                     })
                 }else{
+                    localStorage.setItem('auth', res.data.auth)
                     this.setState({
                         redirection: false
                     })
@@ -35,6 +36,8 @@ export class Confirmed extends Component {
             .catch((error) => {
                 console.log("error");
             })
+            // const auth = localStorage.getItem('auth');
+            // console.log(auth);
     }
 
     render() {
@@ -43,8 +46,6 @@ export class Confirmed extends Component {
         }else if(this.state.redirection === false){
             return <Redirect to='/profil'/>;
         }
-        return <React.Fragment>
-
-        </React.Fragment>
+        return <React.Fragment></React.Fragment>
     }
 }

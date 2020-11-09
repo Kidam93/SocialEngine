@@ -24,20 +24,6 @@ export class PartialNavbar extends Component{
           redirection: null,
           token: null,
       };
-
-      this.handleLogout = this.handleLogout.bind(this);
-  }
-
-  async handleLogout(event) {
-      Axios.get('http://127.0.0.1:8000/profil-disconnected', {withCredentials: true})
-      .then((res) => {
-          this.setState({
-            redirection: true
-          });
-      })
-      .catch((error) => {
-          console.log("error");
-      })
   }
 
     render(){
@@ -65,7 +51,7 @@ export class PartialNavbar extends Component{
                   <Link class="nav-link" to="/pictures/new">Poster une photo</Link>
                 </li>
                 <li class="nav-item">
-                  <button class="btn btn-danger" onClick={this.handleLogout}>Déconnexion</button>
+                  <Link to="/disconnected" className="btn btn-danger">Déconnexion</Link>
                 </li>
               </>
             </Nav>

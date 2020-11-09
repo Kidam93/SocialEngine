@@ -92,6 +92,7 @@ export class Register extends Component {
         data.set('passwordConfirmed', this.state.passwordConfirmed);
         Axios.post('http://127.0.0.1:8000/registration', data, {withCredentials: true})
             .then(res => {
+                // localStorage.setItem('auth', res.data.auth)
                 console.log(res)
             })
             .catch(error => {
@@ -101,10 +102,11 @@ export class Register extends Component {
 
     render() {
     // if is_connect === true return /profil
-    
-    if (this.state.redirection === true) {
+    const auth = localStorage.getItem('auth');
+    console.log(auth);
+    if (auth) {
         return <Redirect to='/profil' />;
-    }else if(this.state.redirection === false){
+    }else{
         return <React.Fragment>
             <body class="bg-light" className="body">
                 <div class="container">
@@ -182,11 +184,7 @@ export class Register extends Component {
             </div>
             </body>
         </React.Fragment>
-    }else{
-        // LOADER
-        return <React.Fragment></React.Fragment>
     }
-
   }
 }
 
