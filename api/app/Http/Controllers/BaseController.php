@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -24,9 +25,9 @@ class BaseController extends Controller
     }
 
     public function create(){
-        // $userId = $this->request->session()->get('user_id');
+        $session = $this->request->session()->all();
         // $userToken = DB::table('users')->where('id', $userId)->value('token');
-        return response()->json(['create' => null]);
+        return response()->json(['create' => $session]);
     }
 
     public function store(Request $request){
@@ -39,7 +40,15 @@ class BaseController extends Controller
         if($email === $email && $hash === true){
             $idBDD = DB::table('users')->where('email', $email)->value('id');
             $user = DB::table('users')->find($idBDD);
-            return response()->json(['valid' => $user]);
+            $firstName = DB::table('users')->where('id', $idBDD)->value('firstname');
+            $key = "demo";
+            $token = [
+                'user_id' => $idBDD,
+                'firstname' => $firstName,
+                'exp' => time() * 60
+            ];
+            $token = JWT::encode($token, $key);
+            return response()->json(['user' => $user, 'token' => $token]);
         }else{
             return response()->json(['errors' => "l'email ou le mot de passe est incorrecte"]);
         }

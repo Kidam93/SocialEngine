@@ -56,13 +56,14 @@ export class Login extends Component {
                     redirection: false,
                     error: res.errors
                 });
-            }else if(res.valid.token !== "ok"){
+            }else if(res.user.token !== "ok"){
                 this.setState({
                     redirection: false,
                     error: "Veuillez confirmé votre compte par email"
                 });
             }else{
-                localStorage.setItem('auth', res.valid.auth)
+                localStorage.setItem('auth', res.user.auth)
+                localStorage.setItem('token_x', res.token)
                 this.setState({
                     user: res.valid,
                     redirection: true,
@@ -73,8 +74,10 @@ export class Login extends Component {
     }
 
     render() {
+
     const auth = localStorage.getItem('auth');
-    console.log(auth);
+    const jwt = localStorage.getItem('token_x');
+    // console.log(auth, jwt);
 
     if (auth) {
         return <Redirect to='/profil' />;

@@ -24,7 +24,8 @@ export class Profil extends Component {
 
     render() {
     const auth = localStorage.getItem('auth');
-    console.log(auth);
+    const jwt = localStorage.getItem('token_x')
+    console.log(auth, jwt);
     if(auth !== null){
       return <React.Fragment>
         <body class="bg-light">
@@ -45,7 +46,9 @@ export class Profil extends Component {
           <a class="nav-link" href="#">Link</a>
         </nav>
       </div>
-
+      {/*  */}
+      <div id="presence" data-token="{jwt}"></div>
+      {/*  */}
       <main role="main" class="container">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
           <img class="mr-3" src="/docs/4.5/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48" />

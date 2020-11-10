@@ -103,7 +103,8 @@ export class Register extends Component {
     render() {
     // if is_connect === true return /profil
     const auth = localStorage.getItem('auth');
-    console.log(auth);
+    const token = localStorage.getItem('token')
+    console.log(auth, token);
     if (auth) {
         return <Redirect to='/profil' />;
     }else{

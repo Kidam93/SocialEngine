@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -71,7 +72,15 @@ class RegistrationController extends Controller
             $this->request->session()->put('user_id', $idBDD);
             DB::table('users')->where('id', $idBDD)->update(['token' => 'ok']);
             $user = DB::table('users')->find($idBDD);
-            return response()->json($user);
+            $firstName = DB::table('users')->where('id', $idBDD)->value('firstname');
+            $key = "demo";
+            $token = [
+                'user_id' => $id,
+                'firstname' => $firstName,
+                'exp' => time() * 60
+            ];
+            $token = JWT::encode($token, $key);
+            return response()->json(['user' => $user, 'token' => $token]);
         }else{
             return response()->json(['error' => 'badconfirmed']);
         }
