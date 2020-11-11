@@ -62,7 +62,7 @@ export class Login extends Component {
                     error: "Veuillez confirmé votre compte par email"
                 });
             }else{
-                localStorage.setItem('auth', res.user.auth)
+                localStorage.setItem('auth_x', res.user.auth+'&'+res.user.id)
                 localStorage.setItem('token_x', res.token)
                 this.setState({
                     user: res.valid,
@@ -75,10 +75,9 @@ export class Login extends Component {
 
     render() {
 
-    const auth = localStorage.getItem('auth');
+    const auth = localStorage.getItem('auth_x');
     const jwt = localStorage.getItem('token_x');
     // console.log(auth, jwt);
-
     if (auth) {
         return <Redirect to='/profil' />;
     }else{

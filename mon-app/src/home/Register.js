@@ -101,10 +101,9 @@ export class Register extends Component {
     }
 
     render() {
-    // if is_connect === true return /profil
-    const auth = localStorage.getItem('auth');
-    const token = localStorage.getItem('token')
-    console.log(auth, token);
+    const auth = localStorage.getItem('auth_x');
+    const jwt = localStorage.getItem('token_x')
+    console.log(auth, jwt);
     if (auth) {
         return <Redirect to='/profil' />;
     }else{

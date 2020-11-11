@@ -6,10 +6,17 @@ import {
     Redirect
   } from "react-router-dom";
 import { PartialNavbar } from '../partials/PartialNavbar';
+import io from 'socket.io-client';
+
+// let socket = io("http://127.0.0.1:3000")
 
 export class Profil extends Component {
 
-  // state is_connected redux
+  // WEBSOCKET CLIENT
+  // socket.on('connect', () => {
+  //   console.log('je suis connecté')
+  // })
+  // 
 
   constructor(props) {
     super(props);
@@ -23,7 +30,7 @@ export class Profil extends Component {
   }
 
     render() {
-    const auth = localStorage.getItem('auth');
+    const auth = localStorage.getItem('auth_x');
     const jwt = localStorage.getItem('token_x')
     console.log(auth, jwt);
     if(auth !== null){

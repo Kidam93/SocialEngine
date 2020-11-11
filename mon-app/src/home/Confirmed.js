@@ -27,7 +27,7 @@ export class Confirmed extends Component {
                         redirection: true
                     })
                 }else{
-                    localStorage.setItem('auth', res.data.user.auth)
+                    localStorage.setItem('auth_x', res.data.user.auth+'&'+id)
                     localStorage.setItem('token_x', res.data.token)
                     this.setState({
                         redirection: false
@@ -38,7 +38,7 @@ export class Confirmed extends Component {
                 console.log("error");
             })
 
-            const auth = localStorage.getItem('auth');
+            const auth = localStorage.getItem('auth_x');
             const jwt = localStorage.getItem('token_x');
             console.log('auth', auth, 'jwt', jwt);
     }
@@ -49,5 +49,6 @@ export class Confirmed extends Component {
         }else if(this.state.redirection === false){
             return <Redirect to='/profil'/>;
         }
+        return <React.Fragment></React.Fragment>
     }
 }
