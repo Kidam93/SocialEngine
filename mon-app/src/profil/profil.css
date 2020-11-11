@@ -1,0 +1,13 @@
+#main{
+    padding-bottom: 50px;
+    background-color: #F8F9FA;
+}
+
+.posts{
+    border: none;
+    height: 75px;
+    width: 100%;
+}
+.text{
+    display: block;
+}

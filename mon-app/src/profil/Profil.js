@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import './profil.css'
 import Axios from 'axios';
 import {
     BrowserRouter as Router,
@@ -25,14 +26,83 @@ export class Profil extends Component {
         lastName: '',
         email: '',
         created: '',
-        redirection: false
+        redirection: false,
+        auth_x: null,
+        post: '',
+        posts_user: ''
     };
+
+    this.handlePostChange = this.handlePostChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  componentDidMount(){
+      // const bad_auth_x = "jBdGvA92WCsqVVut0C92LKGLYRKPsO2i1KkbfIr7&26";
+      const auth_x = localStorage.getItem('auth_x');
+      // USER
+      Axios.get('http://127.0.0.1:8000/profil/'+auth_x, {withCredentials: true})
+          .then((res) => {
+              if(res.data.error === 'redirect'){
+                localStorage.clear();
+              }else{
+                this.setState({
+                  firstName: res.data.user.firstname,
+                  lastName: res.data.user.lastname,
+                  email: res.data.user.email,
+                  created: res.data.user.created_at,
+                  auth_x: res.data.user.auth+'&'+res.data.user.id
+                })
+              }
+          })
+          .catch((error) => {
+              console.log("error");
+          })
+      // POST
+      Axios.get('http://127.0.0.1:8000/profil-post/'+auth_x, {withCredentials: true})
+          .then((res) => {
+              this.setState({
+                posts_user: res.data.posts
+              })
+          })
+          .catch((error) => {
+              console.log("error");
+          })
+  }
+
+  handlePostChange(event) {
+      this.setState({
+          post: event.target.value
+      })
+  }
+
+async handleSubmit(event) {
+  event.preventDefault();
+  let data = new FormData()
+  data.set('post', this.state.post);
+  Axios.post('http://127.0.0.1:8000/profil/'+this.state.auth_x, data, {withCredentials: true})
+      .then(res => {
+          console.log(res)
+      })
+      .catch(error => {
+          console.log(error.response)
+      })
+  
+  // POST
+  const auth_x = localStorage.getItem('auth_x');
+  Axios.get('http://127.0.0.1:8000/profil-post/'+auth_x, {withCredentials: true})
+      .then((res) => {
+          this.setState({
+            posts_user: res.data.posts
+          })
+      })
+      .catch((error) => {
+          console.log("error");
+      })
+}
 
     render() {
     const auth = localStorage.getItem('auth_x');
-    const jwt = localStorage.getItem('token_x')
-    console.log(auth, jwt);
+    const jwt = localStorage.getItem('token_x');
     if(auth !== null){
       return <React.Fragment>
         <body class="bg-light">
@@ -56,7 +126,7 @@ export class Profil extends Component {
       {/*  */}
       <div id="presence" data-token="{jwt}"></div>
       {/*  */}
-      <main role="main" class="container">
+      <main role="main" class="container" id="main">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
           <img class="mr-3" src="/docs/4.5/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48" />
           <div class="lh-100">
@@ -65,31 +135,26 @@ export class Profil extends Component {
           </div>
         </div>
 
+        <form class="my-3 p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit}>
+          <textarea className="posts" placeholder="your post here.." name="post" value={this.state.post} onChange={this.handlePostChange}></textarea>
+          <button type="submit" class="btn btn-success">Ok</button>
+          {/* <p>{this.state.auth_x}</p> */}
+        </form>
+
         <div class="my-3 p-3 bg-white rounded shadow-sm">
-          <h6 class="border-bottom border-gray pb-2 mb-0">Recent updates</h6>
+          <h6 class="border-bottom border-gray pb-2 mb-0">Recent posts</h6>
+
           <div class="media text-muted pt-3">
-            <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-              <strong class="d-block text-gray-dark">@username</strong>
-              Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-            </p>
+            <div className="text">
+            {Object.keys(this.state.posts_user).map((key) => 
+              // console.log(this.state.posts_user[key])
+              <div><p>{ this.state.posts_user[key].content }</p></div>
+            )}
+            </div>
           </div>
-          <div class="media text-muted pt-3">
-            <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
-            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-              <strong class="d-block text-gray-dark">@username</strong>
-              Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-            </p>
-          </div>
-          <div class="media text-muted pt-3">
-            <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
-            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-              <strong class="d-block text-gray-dark">@username</strong>
-              Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-            </p>
-          </div>
+
           <small class="d-block text-right mt-3">
-            <a href="#">All updates</a>
+            <a href="#">All posts</a>
           </small>
         </div>
 
@@ -133,6 +198,7 @@ export class Profil extends Component {
       </body>
     </React.Fragment>
     }else{
+      localStorage.clear();
       return <Redirect to='/'/>;
     }
   }
