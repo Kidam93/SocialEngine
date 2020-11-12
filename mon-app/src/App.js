@@ -3,6 +3,7 @@ import {Login} from './home/Login.js';
 import {Register} from './home/Register';
 import {Disconnected} from './home/Disconnected';
 import {Profil} from './profil/Profil.js';
+import {Search} from './search/Search.js';
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,6 +33,9 @@ function App() {
           </Route>
           <Route path="/disconnected">
             <Disconnected id={setId} />
+          </Route>
+          <Route path="/search">
+            <Search />
           </Route>
           <Route path='/confirmed/:id-:token' component={Confirmed} />
         </Switch>

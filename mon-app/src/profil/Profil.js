@@ -4,7 +4,8 @@ import './profil.css'
 import Axios from 'axios';
 import {
     BrowserRouter as Router,
-    Redirect
+    Redirect,
+    Link
   } from "react-router-dom";
 import { PartialNavbar } from '../partials/PartialNavbar';
 import io from 'socket.io-client';
@@ -98,6 +99,9 @@ async handleSubmit(event) {
       .catch((error) => {
           console.log("error");
       })
+  this.setState({
+      post: ''
+  })
 }
 
     render() {
@@ -116,11 +120,7 @@ async handleSubmit(event) {
           </a>
           <a class="nav-link" href="#">Explore</a>
           <a class="nav-link" href="#">Suggestions</a>
-          <a class="nav-link" href="#">Link</a>
-          <a class="nav-link" href="#">Link</a>
-          <a class="nav-link" href="#">Link</a>
-          <a class="nav-link" href="#">Link</a>
-          <a class="nav-link" href="#">Link</a>
+          <Link class="nav-link" to="/profil">You</Link>
         </nav>
       </div>
       {/*  */}
@@ -194,6 +194,7 @@ async handleSubmit(event) {
             <a href="#">All suggestions</a>
           </small>
         </div>
+        
       </main>
       </body>
     </React.Fragment>

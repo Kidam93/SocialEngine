@@ -4,6 +4,7 @@ use Faker\Provider\Base;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RegistrationController;
 
 /*
@@ -29,3 +30,5 @@ Route::get('/profil/{auth_x}', [ProfilController::class, 'profil']);
 Route::get('/profil-disconnected', [ProfilController::class, 'disconnectedUser']);
 Route::post('/profil/{auth_x}', [ProfilController::class, 'profilPosts']);
 Route::get('/profil-post/{auth_x}', [ProfilController::class, 'findPost']);
+// SEARCH
+Route::post('/search/{auth_x}', [SearchController::class, 'search']);
