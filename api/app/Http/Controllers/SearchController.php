@@ -26,7 +26,7 @@ class SearchController extends Controller
                                         ->select('id', 'firstname', 'lastname')->get();   
                 return response()->json(['users' => $users]);
             }else{
-                return response()->json(['search' => 'Aucun resultats']);
+                return response()->json(['users' => 'Aucun resultats']);
             }
         }else{
             return response()->json(['error' => 'redirect']);

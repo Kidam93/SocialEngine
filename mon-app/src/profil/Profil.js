@@ -139,7 +139,6 @@ async handleSubmit(event) {
         <form class="my-3 p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit}>
           <textarea className="posts" placeholder="your post here.." name="post" value={this.state.post} onChange={this.handlePostChange}></textarea>
           <button type="submit" class="btn btn-success">Ok</button>
-          {/* <p>{this.state.auth_x}</p> */}
         </form>
 
         <div class="my-3 p-3 bg-white rounded shadow-sm">
@@ -148,7 +147,6 @@ async handleSubmit(event) {
           <div class="media text-muted pt-3">
             <div className="text">
             {Object.keys(this.state.posts_user).map((key) => 
-              // console.log(this.state.posts_user[key])
               <div><p>{ this.state.posts_user[key].content }</p></div>
             )}
             </div>

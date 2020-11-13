@@ -54,20 +54,25 @@ export class PartialNavbar extends Component{
         data = response.json();
         data.then(res => {
           this.setState({
-            data: res.users
+            data: res.users,
+            redirection: true
           })
-        })
-        this.setState({
-          redirection: true
         })
     }
 
     render(){
+      console.log(this.state.data)
       if (this.state.redirection === true) {
-        if(this.state.data !== null){
-          
-          // console.log(this.state.data)
-          return <Redirect to='/search' />;
+        if(this.state.data !== null || this.state.data !== undefined){
+          if(this.state.data !== "Aucun resultats"){
+            const data = JSON.stringify(this.state.data)
+            localStorage.setItem('search', data)
+            return <Redirect to='/search' />;
+          }else{
+            console.log('not good !')
+          }
+        }else{
+          return <Redirect to='/profil' />;
         }
       }
       

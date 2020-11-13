@@ -28,7 +28,10 @@ export class Search extends Component{
     }
 
     componentDidMount(){
-        console.log('state', this.state.search);
+        // let data = localStorage.getItem('search');
+        // data = JSON.parse(data)
+        // JSON.parse()
+        console.log(JSON.parse(this.state.search))
     }
 
     render(){
@@ -90,32 +93,18 @@ export class Search extends Component{
           <div class="my-3 p-3 bg-white rounded shadow-sm">
           <h6 class="border-bottom border-gray pb-2 mb-0">Resultats</h6>
           {/* for */}
-
+          {Object.keys(JSON.parse(this.state.search)).map((key) =>
           <div class="media text-muted pt-3">
             <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div class="d-flex justify-content-between align-items-center w-100">
-                <strong class="text-gray-dark">Full Name</strong>
+                <strong class="text-gray-dark">{ JSON.parse(this.state.search)[key].firstname } { JSON.parse(this.state.search)[key].lastname }</strong>
                 <a href="#">Follow</a>
               </div>
               <span class="d-block">@username</span>
             </div>
           </div>
-        
-          {this.state.search}
-
-          {/* { this.state.search.forEach(element => {
-            <div>{element.id}</div>
-          }) } */}
-
-          
-            {/* {Object.keys(this.state.search).map((post) =>
-                <li>
-                  {this.state.search[post]}
-                </li>
-            )} */}
-          
-
+          )}
           {/* endfor */}
           <small class="d-block text-right mt-3">
             <a href="#">All suggestions</a>
