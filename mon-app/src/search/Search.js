@@ -23,13 +23,13 @@ export class Search extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            
+            search: localStorage.getItem('search')
         };
     }
 
-    // componentDidMount(props){
-    //   console.log("data-in-search", this.props.location.state.data);
-    // }
+    componentDidMount(){
+        console.log('state', this.state.search);
+    }
 
     render(){
       const auth = localStorage.getItem('auth_x');
@@ -37,7 +37,33 @@ export class Search extends Component{
       if(auth !== null){
         return <React.Fragment>
           <body class="bg-light">
-            <PartialNavbar />
+            {/* nav search */}
+            <Navbar bg="light" expand="lg">
+              <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                  <Nav.Link href="#home">Home</Nav.Link>
+                  <Nav.Link href="#link">Link</Nav.Link>
+                  <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                  </NavDropdown>
+                  <>
+                    <li className="nav-item">
+                      <Link class="nav-link" to="/pictures/new">Poster une photo</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/disconnected" className="btn btn-danger">Déconnexion</Link>
+                    </li>
+                  </>
+                </Nav>
+              </Navbar.Collapse>
+            </Navbar>
+            {/* end nav search */}
         <div class="nav-scroller bg-white shadow-sm">
           <nav class="nav nav-underline">
             <a class="nav-link active" href="#">Dashboard</a>
@@ -62,7 +88,9 @@ export class Search extends Component{
           </div>
 
           <div class="my-3 p-3 bg-white rounded shadow-sm">
-          <h6 class="border-bottom border-gray pb-2 mb-0">Suggestions</h6>
+          <h6 class="border-bottom border-gray pb-2 mb-0">Resultats</h6>
+          {/* for */}
+
           <div class="media text-muted pt-3">
             <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
@@ -73,26 +101,22 @@ export class Search extends Component{
               <span class="d-block">@username</span>
             </div>
           </div>
-          <div class="media text-muted pt-3">
-            <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-            <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-              <div class="d-flex justify-content-between align-items-center w-100">
-                <strong class="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
-              </div>
-              <span class="d-block">@username</span>
-            </div>
-          </div>
-          <div class="media text-muted pt-3">
-            <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-            <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-              <div class="d-flex justify-content-between align-items-center w-100">
-                <strong class="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
-              </div>
-              <span class="d-block">@username</span>
-            </div>
-          </div>
+        
+          {this.state.search}
+
+          {/* { this.state.search.forEach(element => {
+            <div>{element.id}</div>
+          }) } */}
+
+          
+            {/* {Object.keys(this.state.search).map((post) =>
+                <li>
+                  {this.state.search[post]}
+                </li>
+            )} */}
+          
+
+          {/* endfor */}
           <small class="d-block text-right mt-3">
             <a href="#">All suggestions</a>
           </small>

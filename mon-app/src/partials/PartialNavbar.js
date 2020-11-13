@@ -26,7 +26,7 @@ export class PartialNavbar extends Component{
             redirection: null,
             token: null,
             search: '',
-            data: []
+            data: null
         };
 
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -54,7 +54,7 @@ export class PartialNavbar extends Component{
         data = response.json();
         data.then(res => {
           this.setState({
-            data: res.search
+            data: res.users
           })
         })
         this.setState({
@@ -63,15 +63,12 @@ export class PartialNavbar extends Component{
     }
 
     render(){
-      console.log(this.state.data)
       if (this.state.redirection === true) {
-        return <Redirect to='/search' />;
-        // <Redirect
-        //     to={{
-        //     pathname: '/search',
-        //     state: { data: this.state.data }
-        //   }}
-        // />
+        if(this.state.data !== null){
+          
+          // console.log(this.state.data)
+          return <Redirect to='/search' />;
+        }
       }
       
       return <React.Fragment>

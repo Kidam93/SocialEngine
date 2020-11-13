@@ -105,6 +105,7 @@ async handleSubmit(event) {
 }
 
     render() {
+    console.log(this.state.posts_user)
     const auth = localStorage.getItem('auth_x');
     const jwt = localStorage.getItem('token_x');
     if(auth !== null){

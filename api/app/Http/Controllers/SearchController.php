@@ -22,8 +22,9 @@ class SearchController extends Controller
             if(!empty($search)){
                 $users = DB::table('users')->where('users.id', '!=', $id)
                                         ->where('firstname', 'LIKE', "%{$search}%")
-                                        ->orWhere('lastname', 'LIKE', "%{$search}%")->get();                       
-                return response()->json(['search' => $users]);
+                                        ->orWhere('lastname', 'LIKE', "%{$search}%")
+                                        ->select('id', 'firstname', 'lastname')->get();   
+                return response()->json(['users' => $users]);
             }else{
                 return response()->json(['search' => 'Aucun resultats']);
             }
