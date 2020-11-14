@@ -123,7 +123,7 @@ export class Register extends Component {
             <header class="masthead mb-auto">
                 <div class="inner mb-4">
                 <h3 class="masthead-brand">Cover</h3>
-                <nav class="nav nav-masthead justify-content-center">
+                <nav class="nav nav-masthead justify-content-center" id="nav">
                     <Link to="/">Home</Link>
                     <Link to="/register">Sinscrire</Link>
                     {/* <a class="nav-link" href="#">Mot de passe oublié</a> */}

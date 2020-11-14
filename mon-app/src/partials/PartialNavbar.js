@@ -51,8 +51,8 @@ export class PartialNavbar extends Component{
                 Accept: 'application/json'
             }
         })
-        data = response.json();
-        data.then(res => {
+        let value = response.json();
+        value.then(res => {
           this.setState({
             data: res.users,
             redirection: true
@@ -61,7 +61,6 @@ export class PartialNavbar extends Component{
     }
 
     render(){
-      console.log(this.state.data)
       if (this.state.redirection === true) {
         if(this.state.data !== null || this.state.data !== undefined){
           if(this.state.data !== "Aucun resultats"){

@@ -136,3 +136,6 @@ input{
     border-radius: 7px;
     background-color: pink;
 }
+#nav a{
+    color: white;
+}

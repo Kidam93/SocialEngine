@@ -114,6 +114,7 @@ async handleSubmit(event) {
           <PartialNavbar />
       <div class="nav-scroller bg-white shadow-sm">
         <nav class="nav nav-underline">
+          <Link class="nav-link" to="/profil">Profil</Link>
           <a class="nav-link active" href="#">Dashboard</a>
           <a class="nav-link" href="#">
             Friends
@@ -121,7 +122,6 @@ async handleSubmit(event) {
           </a>
           <a class="nav-link" href="#">Explore</a>
           <a class="nav-link" href="#">Suggestions</a>
-          <Link class="nav-link" to="/profil">You</Link>
         </nav>
       </div>
       {/*  */}

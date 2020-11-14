@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './cover.css';
+import './login.css';
 import Axios from 'axios';
 import {
     BrowserRouter as Router,
@@ -87,7 +87,7 @@ export class Login extends Component {
             <header class="masthead mb-auto">
                 <div class="inner">
                 <h3 class="masthead-brand">Cover</h3>
-                <nav class="nav nav-masthead justify-content-center">
+                <nav class="nav nav-masthead justify-content-center" id="nav">
                     <Link to="/">Home</Link>
                     <Link to="/register">Sinscrire</Link>
                     {/* <a class="nav-link" href="#">Mot de passe oublié</a> */}
