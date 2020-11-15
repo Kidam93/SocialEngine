@@ -25,6 +25,10 @@ export class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // componentDidMount(){
+    //     this.props.id(66)
+    // }
+
     handleEmailChange(event) {
         this.setState({
             email: event.target.value
@@ -69,6 +73,7 @@ export class Login extends Component {
                     redirection: true,
                     error: "Connexion..."
                 });
+                this.props.id(res.user.id)
             }
         })
     }

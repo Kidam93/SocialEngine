@@ -12,12 +12,17 @@ import {
   Redirect
 } from "react-router-dom";
 import { Confirmed } from './home/Confirmed.js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function App() {
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(null)
+
+  useEffect(() => {
+    console.log("App", id)
+  });
 
   return (
+
     <div className="App">
       <Router>
       <div>
@@ -29,10 +34,10 @@ function App() {
             <Register />
           </Route>
           <Route path="/profil">
-            <Profil id={setId} />
+            <Profil />
           </Route>
           <Route path="/disconnected">
-            <Disconnected id={setId} />
+            <Disconnected />
           </Route>
           <Route path="/search">
             <Search />
