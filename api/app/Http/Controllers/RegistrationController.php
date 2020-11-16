@@ -80,7 +80,10 @@ class RegistrationController extends Controller
                 'exp' => time() * 60
             ];
             $token = JWT::encode($token, $key);
-            return response()->json(['user' => $user, 'token' => $token]);
+            // SESSION
+            $this->request->session()->put('user', $user);
+            $sessionUser = $this->request->session()->get('user');
+            return response()->json(['user' => $sessionUser, 'token' => $token]);
         }else{
             return response()->json(['error' => 'badconfirmed']);
         }

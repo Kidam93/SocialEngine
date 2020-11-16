@@ -40,10 +40,9 @@ export class PartialNavbar extends Component{
     }
 
     async handleSearchSubmit(event) {
-        const auth = localStorage.getItem('auth_x');
         event.preventDefault();
         let data = new FormData(event.target)
-        const response = await fetch('http://127.0.0.1:8000/search/'+auth, {
+        const response = await fetch('http://127.0.0.1:8000/search/', {
             method: 'POST',
             body: data,
             credentials: 'include',

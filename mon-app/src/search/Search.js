@@ -31,10 +31,6 @@ export class Search extends Component{
         this.handleSearchBarSubmit = this.handleSearchBarSubmit.bind(this);
     }
 
-    componentDidMount(){
-        // console.log(JSON.parse(this.state.search))
-    }
-
     handleSearchBarChange(event) {
         this.setState({
             searchBar: event.target.value
@@ -42,10 +38,9 @@ export class Search extends Component{
     }
 
     async handleSearchBarSubmit(event) {
-        const auth = localStorage.getItem('auth_x');
         event.preventDefault();
         let data = new FormData(event.target)
-        const response = await fetch('http://127.0.0.1:8000/search/'+auth, {
+        const response = await fetch('http://127.0.0.1:8000/search/', {
             method: 'POST',
             body: data,
             credentials: 'include',
@@ -59,14 +54,11 @@ export class Search extends Component{
             search: JSON.stringify(res.users)
           })
         })
-
     }
 
     render(){
-      console.log(this.state.search)
-      const auth = localStorage.getItem('auth_x');
-      const jwt = localStorage.getItem('token_x');
-      if(auth !== null){
+      let redirect = localStorage.getItem('redirect');
+      if(redirect === 'true'){
         return <React.Fragment>
           <body class="bg-light">
             {/* nav search */}

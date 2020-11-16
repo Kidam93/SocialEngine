@@ -25,10 +25,9 @@ Route::get('/registration', [RegistrationController::class, 'create']);
 Route::post('/registration', [RegistrationController::class, 'store']);
 Route::get('/confirmed/{id}-{token}', [RegistrationController::class, 'confirm']);
 // PROFIL
-Route::get('/profil', [ProfilController::class, 'findUser']);
-Route::get('/profil/{auth_x}', [ProfilController::class, 'profil']);
+Route::get('/profil', [ProfilController::class, 'profilFind']);
 Route::get('/profil-disconnected', [ProfilController::class, 'disconnectedUser']);
-Route::post('/profil/{auth_x}', [ProfilController::class, 'profilPosts']);
-Route::get('/profil-post/{auth_x}', [ProfilController::class, 'findPost']);
+Route::post('/profil', [ProfilController::class, 'profilPosts']);
+Route::get('/profil-post', [ProfilController::class, 'findPost']);
 // SEARCH
-Route::post('/search/{auth_x}', [SearchController::class, 'search']);
+Route::post('/search', [SearchController::class, 'search']);

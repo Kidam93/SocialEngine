@@ -12,12 +12,29 @@ export class Disconnected extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirection: null
+            redirection: false
         };
+    }
+
+    componentDidMount(){
+        // USER
+        Axios.get('http://127.0.0.1:8000/profil-disconnected/', {withCredentials: true})
+            .then((res) => {
+                this.setState({
+                    redirection: true
+                })
+            })
+            .catch((error) => {
+
+            })
     }
 
     render() {
         localStorage.clear();
-        return <Redirect to='/'/>;
+        if(this.state.redirection === true){
+            return <Redirect to='/'/>;
+        }
+        return <React.Fragment></React.Fragment>
     }
+
 }

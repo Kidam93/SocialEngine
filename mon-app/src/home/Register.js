@@ -92,7 +92,6 @@ export class Register extends Component {
         data.set('passwordConfirmed', this.state.passwordConfirmed);
         Axios.post('http://127.0.0.1:8000/registration', data, {withCredentials: true})
             .then(res => {
-                // localStorage.setItem('auth', res.data.auth)
                 console.log(res)
             })
             .catch(error => {
@@ -101,24 +100,13 @@ export class Register extends Component {
     }
 
     render() {
-    const auth = localStorage.getItem('auth_x');
-    const jwt = localStorage.getItem('token_x')
-    console.log(auth, jwt);
-    if (auth) {
+    let redirect = localStorage.getItem('redirect'); 
+    if(redirect === 'true') {
         return <Redirect to='/profil' />;
     }else{
         return <React.Fragment>
             <body class="bg-light" className="body">
                 <div class="container">
-            {/* <div class="py-5 text-center">
-            <nav class="nav nav-masthead justify-content-center">
-                <Link to="/">Home</Link>
-                <Link to="/register">Sinscrire</Link>
-            </nav>
-            <h3 class="masthead-brand"><a href="">Cover</a></h3>
-                <h2>Registration form</h2>
-                <p class="lead">SocialEngine welcomes you</p>
-            </div> */}
             <div class="cover-container d-flex p-3 mx-auto flex-column mb-4">
             <header class="masthead mb-auto">
                 <div class="inner mb-4">
@@ -126,7 +114,6 @@ export class Register extends Component {
                 <nav class="nav nav-masthead justify-content-center" id="nav">
                     <Link to="/">Home</Link>
                     <Link to="/register">Sinscrire</Link>
-                    {/* <a class="nav-link" href="#">Mot de passe oublié</a> */}
                 </nav>
                 </div>
             </header>
@@ -187,5 +174,3 @@ export class Register extends Component {
     }
   }
 }
-
-// export default Login;

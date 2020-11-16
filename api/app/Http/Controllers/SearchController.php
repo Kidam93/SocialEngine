@@ -14,11 +14,10 @@ class SearchController extends Controller
         $this->request = $request;
     }
 
-    public function search($auth_x, Request $request){
-        $verifyAuth = self::verifyAuth($auth_x);
-        if($verifyAuth !== false){
+    public function search(Request $request){
+        if(!empty($this->request->session()->get('user'))){
             $search = $request->request->get('search');
-            $id = explode('&', $auth_x)[1];
+            $id = $this->request->session()->get('user')->id;
             if(!empty($search)){
                 $users = DB::table('users')->where('users.id', '!=', $id)
                                         ->where('firstname', 'LIKE', "%{$search}%")
@@ -31,20 +30,6 @@ class SearchController extends Controller
             }
         }else{
             return response()->json(['error' => 'redirect']);
-        }
-        return;
-    }
-
-    private static function verifyAuth($auth_x){
-        // if verifyAuth is correct return profil
-        $auth = explode('&', $auth_x)[0];
-        $id = explode('&', $auth_x)[1];
-        $idBDD = DB::table('users')->where('auth', $auth)->value('id');
-        $authBDD = DB::table('users')->where('id', $idBDD)->value('auth');
-        if($auth === $authBDD && (int)$id === (int)$idBDD){
-            return DB::table('users')->find($idBDD);
-        }else{
-            return false;
         }
     }
 }

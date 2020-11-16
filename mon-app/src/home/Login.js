@@ -14,20 +14,17 @@ export class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
             email: '',
             password: '',
             redirection: false,
-            error: 'Entrer vos identifiants',
+            error: 'Entrer vos identifiants'
         };
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-    // componentDidMount(){
-    //     this.props.id(66)
-    // }
 
     handleEmailChange(event) {
         this.setState({
@@ -66,24 +63,21 @@ export class Login extends Component {
                     error: "Veuillez confirmé votre compte par email"
                 });
             }else{
-                localStorage.setItem('auth_x', res.user.auth+'&'+res.user.id)
-                localStorage.setItem('token_x', res.token)
+                localStorage.setItem('redirect', true)
                 this.setState({
+                    id: res.user.id,
                     user: res.valid,
                     redirection: true,
                     error: "Connexion..."
                 });
-                this.props.id(res.user.id)
             }
         })
     }
 
     render() {
-
-    const auth = localStorage.getItem('auth_x');
-    const jwt = localStorage.getItem('token_x');
-    // console.log(auth, jwt);
-    if (auth) {
+    // this.state.redirection === true || 
+    let redirect = localStorage.getItem('redirect'); 
+    if (redirect === 'true'){
         return <Redirect to='/profil' />;
     }else{
         return <React.Fragment>
@@ -95,18 +89,14 @@ export class Login extends Component {
                 <nav class="nav nav-masthead justify-content-center" id="nav">
                     <Link to="/">Home</Link>
                     <Link to="/register">Sinscrire</Link>
-                    {/* <a class="nav-link" href="#">Mot de passe oublié</a> */}
                 </nav>
                 </div>
             </header>
-
             <main role="main" class="inner cover">
                 <h1 class="cover-heading">Social<span className="E">E</span>ngine</h1>
                 <p class="lead">Share anything and everything with anyone</p>
                 <p class="lead">
-
                 {this.state.error}
-
                 <form class="form-signin" onSubmit={this.handleSubmit}>
                 <div class="form-label-group">
                     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="email" value={this.state.email} onChange={this.handleEmailChange} />
@@ -123,7 +113,6 @@ export class Login extends Component {
                 </form>
                 </p>
             </main>
-
             <footer class="mastfoot mt-auto">
                 <div class="inner">
                 <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
@@ -135,5 +124,3 @@ export class Login extends Component {
     }
   }
 }
-
-// export default Login;

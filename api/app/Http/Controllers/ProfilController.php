@@ -16,69 +16,39 @@ class ProfilController extends Controller
         $this->request = $request;
     }
 
-    public function findUser(){
-        
-        return response()->json(['profil' => 'find']);
+    public function profilFind(){
+        $sessionUser = $this->request->session()->get('user');
+        return response()->json(['user' => $sessionUser]);
     }
 
     public function disconnectedUser(){
-        
-        return response()->json(['profil' => 'disconnected']);
+        $this->request->session()->put('user', NULL);
+        $sessionUser = $this->request->session()->get('user');
+        return response()->json(['user' => $sessionUser]);
     }
 
-    public function profil($auth_x){
-        $verifyAuth = self::verifyAuth($auth_x);
-        if($verifyAuth !== false){
-            return response()->json(['user' => $verifyAuth]);
-        }else{
-            return response()->json(['error' => 'redirect']);
-        }
-    }
-
-    public function profilPosts($auth_x, Request $request){
+    public function profilPosts(Request $request){
         // POSTS
-        $verifyAuth = self::verifyAuth($auth_x);
         $post = $request->request->get('post');
-        if($verifyAuth !== false){
-            if(empty(self::isValid($post))){
-                // msg in bdd with relation
-                $id = explode('&', $auth_x)[1];
-                $user = User::find($id);
-                $user->posts()->create([
-                    'content' => $post
-                ]);
-                // 
-                return response()->json(['user' => $verifyAuth, 'request' => $post]);
-            }else{
-                return response()->json(self::isValid($post));
-            }
+        $id = $this->request->session()->get('user')->id;
+        $user = DB::table('users')->find($id);
+        if(empty(self::isValid($post))){
+            // msg in bdd with relation
+            $user = User::find($id);
+            $user->posts()->create([
+                'content' => $post
+            ]);
+            // 
+            return response()->json(['user' => $user, 'request' => $post]);
         }else{
-            return response()->json(['error' => 'redirect']);
+            return response()->json(self::isValid($post));
         }
     }
 
-    public function findPost($auth_x){
-        $verifyAuth = self::verifyAuth($auth_x);
-        if($verifyAuth !== false){
-            $id = explode('&', $auth_x)[1];
-            $posts = DB::table('posts')->where('user_id', $id)->get();
-            return response()->json(['posts' => $posts]);
-        }else{
-            return response()->json(['error' => 'redirect']);
-        }
-    }
-
-    private static function verifyAuth($auth_x){
-        // if verifyAuth is correct return profil
-        $auth = explode('&', $auth_x)[0];
-        $id = explode('&', $auth_x)[1];
-        $idBDD = DB::table('users')->where('auth', $auth)->value('id');
-        $authBDD = DB::table('users')->where('id', $idBDD)->value('auth');
-        if($auth === $authBDD && (int)$id === (int)$idBDD){
-            return DB::table('users')->find($idBDD);
-        }else{
-            return false;
-        }
+    public function findPost(){
+        $id = $this->request->session()->get('user')->id;
+        $posts = DB::table('posts')->where('user_id', $id)->get();
+        return response()->json(['posts' => $posts]);
     }
 
     private static function isValid($post){

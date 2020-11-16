@@ -17,24 +17,21 @@ import React, { useEffect, useState } from 'react';
 function App() {
   const [id, setId] = useState(null)
 
-  useEffect(() => {
-    console.log("App", id)
-  });
+  // console.log("App", id)
 
   return (
-
     <div className="App">
       <Router>
       <div>
         <Switch>
           <Route exact path="/">
-            <Login id={setId} />
+            <Login propertyFunc={setId} />
           </Route>
           <Route path="/register">
             <Register />
           </Route>
           <Route path="/profil">
-            <Profil />
+            <Profil propertyState={id} />
           </Route>
           <Route path="/disconnected">
             <Disconnected />

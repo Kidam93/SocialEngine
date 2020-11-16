@@ -19,7 +19,6 @@ export class Confirmed extends Component {
     componentDidMount(){
         const id = this.props.match.params.id;
         const token = this.props.match.params.token;
-
         Axios.get('http://127.0.0.1:8000/confirmed/'+id+'-'+token, {withCredentials: true})
             .then((res) => {
                 if(res.data.error === "badconfirmed"){
@@ -27,23 +26,21 @@ export class Confirmed extends Component {
                         redirection: true
                     })
                 }else{
-                    localStorage.setItem('auth_x', res.data.user.auth+'&'+id)
-                    localStorage.setItem('token_x', res.data.token)
+                    localStorage.setItem('redirect', true)
                     this.setState({
                         redirection: false
                     })
+
                 }
+                console.log(res)
             })
             .catch((error) => {
                 console.log("error");
             })
-
-            const auth = localStorage.getItem('auth_x');
-            const jwt = localStorage.getItem('token_x');
-            console.log('auth', auth, 'jwt', jwt);
     }
 
     render() {
+        let redirect = localStorage.getItem('redirect'); 
         if (this.state.redirection === true) {
             return <Redirect to='/'/>;
         }else if(this.state.redirection === false){

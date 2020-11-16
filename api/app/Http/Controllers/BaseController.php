@@ -41,6 +41,7 @@ class BaseController extends Controller
             $idBDD = DB::table('users')->where('email', $email)->value('id');
             $user = DB::table('users')->find($idBDD);
             $firstName = DB::table('users')->where('id', $idBDD)->value('firstname');
+            // JWT
             $key = "demo";
             $token = [
                 'user_id' => $idBDD,
@@ -48,7 +49,10 @@ class BaseController extends Controller
                 'exp' => time() * 60
             ];
             $token = JWT::encode($token, $key);
-            return response()->json(['user' => $user, 'token' => $token]);
+            // SESSION
+            $this->request->session()->put('user', $user);
+            $sessionUser = $this->request->session()->get('user');
+            return response()->json(['user' => $sessionUser, 'token' => $token]);
         }else{
             return response()->json(['errors' => "l'email ou le mot de passe est incorrecte"]);
         }
