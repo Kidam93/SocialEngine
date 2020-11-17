@@ -8,7 +8,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import { PartialNavbar } from '../partials/PartialNavbar';
 import InputGroup from 'react-bootstrap/InputGroup'
-import './search.css';
+import './explore.css';
 
 import {
     BrowserRouter as Router,
@@ -18,17 +18,33 @@ import {
     Redirect
   } from "react-router-dom";
 
-export class Search extends Component{
+export class Explore extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            search: localStorage.getItem('search'),
             searchBar: '',
+            all: localStorage.getItem('search')
         };
 
         this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
         this.handleSearchBarSubmit = this.handleSearchBarSubmit.bind(this);
+    }
+
+    componentDidMount(){
+        // EXPLORE FIND ALL
+        Axios.get('http://127.0.0.1:8000/explore/', {withCredentials: true})
+            .then((res) => {
+                const data = JSON.stringify(res.data.users)
+                localStorage.setItem('search', data)
+                this.setState({
+                    all: JSON.stringify(res.data.users)
+                })
+
+            })
+            .catch((error) => {
+                console.log('error..', error)
+            })
     }
 
     handleSearchBarChange(event) {
@@ -51,15 +67,15 @@ export class Search extends Component{
         let value = response.json();
         value.then(res => {
           this.setState({
-            search: JSON.stringify(res.users)
+            search: JSON.stringify(res.users),
+            all: JSON.stringify(res.data.users)
           })
-          console.log('res', res)
-        }).catch( error => {
-          console.log('error', error)
         })
     }
 
     render(){
+    console.log('state all..', this.state.all)
+    console.log('state search..', this.state.search)
       let redirect = localStorage.getItem('redirect');
       if(redirect === 'true'){
         return <React.Fragment>
@@ -93,7 +109,7 @@ export class Search extends Component{
             {/* end nav search */}
         <div class="nav-scroller bg-white shadow-sm">
           <nav class="nav nav-underline">
-          <Link className="nav-link" to="/profil">Profil</Link>
+            <Link class="nav-link" to="/profil">Profil</Link>
             <a class="nav-link active" href="#">Dashboard</a>
             <a class="nav-link" href="#">
               Friends
@@ -107,31 +123,29 @@ export class Search extends Component{
         <div id="presence" data-token="{jwt}"></div>
         {/*  */}
         <main class="container" id="main">
-          <form onSubmit={this.handleSearchBarSubmit} >
-          <div class="input-group input-group-lg" id="search-bar">
-            <div class="input-group-prepend">
-              <button class="input-group-text" id="inputGroup-sizing-lg" id="span">Search</button>
-            </div>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" id="input"  value={this.state.searchBar} onChange={this.handleSearchBarChange} name="search" />
-          </div>
-          </form>
 
           <div class="my-3 p-3 bg-white rounded shadow-sm">
-          <h6 class="border-bottom border-gray pb-2 mb-0">Resultats</h6>
+          <h6 class="border-bottom border-gray pb-2 mb-4">Exploration</h6>
           
-          { 
-            Object.keys(JSON.parse(this.state.search)).map((key) =>
-              <div class="media text-muted pt-3">
-                <img className="mr-3" src={`http://127.0.0.1:8000/storage/pictures/`+JSON.parse(this.state.search)[key].img} alt="" id="img-profil"/>
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                  <div class="d-flex justify-content-between align-items-center w-100">
-                    <strong class="text-gray-dark">{ JSON.parse(this.state.search)[key].firstname } { JSON.parse(this.state.search)[key].lastname }</strong>
-                    <a href="#">Follow</a>
-                  </div>
-                  <span class="d-block">@username</span>
+
+            {/* card */}
+            <div class="row row-cols-1 row-cols-md-3">
+            {Object.keys(JSON.parse(this.state.all)).map((key) =>
+                <div class="col mb-4">
+                    <div class="card" id="card">
+                    <div id="cadre">
+                    <img src={`http://127.0.0.1:8000/storage/pictures/`+JSON.parse(this.state.all)[key].img} class="card-img-top" alt="..." id="img"/>
+                    </div>
+                    <div class="mt-2 ml-2">
+                        <h5 class="card-title">{ JSON.parse(this.state.all)[key].firstname } { JSON.parse(this.state.all)[key].lastname }</h5>
+                        <p class="card-text">{ JSON.parse(this.state.all)[key].describe }</p>
+                        <small class="">{ JSON.parse(this.state.all)[key].created_at }</small>
+                    </div>
+                    </div>
                 </div>
-              </div>
             )}
+            </div>
+            {/* end card */}
 
           {/* endfor */}
           <small class="d-block text-right mt-3">

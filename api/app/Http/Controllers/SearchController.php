@@ -22,14 +22,17 @@ class SearchController extends Controller
                 $users = DB::table('users')->where('users.id', '!=', $id)
                                         ->where('firstname', 'LIKE', "%{$search}%")
                                         ->orWhere('lastname', 'LIKE', "%{$search}%")
-                                        ->select('id', 'firstname', 'lastname')->get();
+                                        ->select('id', 'firstname', 'lastname', 'img')->get();
                 return response()->json(['users' => $users]);   
-            }else{
-                $json = json_decode('[{"id":0,"firstname":"Aucuns","lastname":"Resultats"}]');
-                return response()->json(['users' => $json]);
             }
         }else{
             return response()->json(['error' => 'redirect']);
         }
+    }
+
+    public function all(){
+        $id = $this->request->session()->get('user')->id;
+        $all = DB::table('users')->where('users.id', '!=', $id)->select('id', 'firstname', 'lastname', 'img', 'describe', 'created_at')->get();
+        return response()->json(['users' => $all]);
     }
 }

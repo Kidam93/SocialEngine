@@ -6,6 +6,7 @@ import {Profil} from './profil/Profil.js';
 import {Search} from './search/Search.js';
 import {DeletePost} from './profil/DeletePost';
 import {UpdateProfil} from './profil/UpdateProfil';
+import {Explore} from './explore/Explore'
 import {
   BrowserRouter as Router,
   Switch,
@@ -40,6 +41,9 @@ function App() {
           </Route>
           <Route path="/search">
             <Search />
+          </Route>
+          <Route path="/explore">
+            <Explore />
           </Route>
           <Route path="/profil-update" component={UpdateProfil}/>
           <Route path="/profil-delete-:id" component={DeletePost}/>

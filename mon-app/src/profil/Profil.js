@@ -42,6 +42,9 @@ componentDidMount(){
                 })
               }else{
                 // let img =  JSON.stringify(res.data.user.img);
+                const data = JSON.stringify([res.data.user])
+                localStorage.setItem('search', data)
+                localStorage.setItem('img', res.data.user.img)
                 this.setState({
                   id: res.data.user.id,
                   firstName: res.data.user.firstname,
@@ -112,7 +115,7 @@ async handleSubmit(event) {
             Friends
             <span class="badge badge-pill bg-light align-text-bottom">27</span>
           </a>
-          <a className="nav-link" href="#">Explore</a>
+          <Link className="nav-link" to="/explore">Explore</Link>
           <a className="nav-link" href="#">Suggestions</a>
         </nav>
       </div>

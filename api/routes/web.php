@@ -32,6 +32,7 @@ Route::post('/profil', [ProfilController::class, 'profilPosts']);
 Route::get('/profil-post', [ProfilController::class, 'findPost']);
 // SEARCH
 Route::post('/search', [SearchController::class, 'search']);
+Route::get('/explore', [SearchController::class, 'all']);
 // POST
 Route::get('/profil-delete-{id}', [ProfilController::class, 'postDelete']);
 Route::post('/profil-update', [ProfilController::class, 'profilUpdate']);

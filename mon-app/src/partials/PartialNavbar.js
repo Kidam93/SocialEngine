@@ -56,6 +56,10 @@ export class PartialNavbar extends Component{
             data: res.users,
             redirection: true
           })
+        }).catch( error => {
+          this.setState({
+            redirection: false
+          })
         })
     }
 
