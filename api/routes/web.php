@@ -2,6 +2,7 @@
 
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SearchController;
@@ -31,3 +32,6 @@ Route::post('/profil', [ProfilController::class, 'profilPosts']);
 Route::get('/profil-post', [ProfilController::class, 'findPost']);
 // SEARCH
 Route::post('/search', [SearchController::class, 'search']);
+// POST
+Route::get('/profil-delete-{id}', [ProfilController::class, 'postDelete']);
+Route::post('/profil-update', [ProfilController::class, 'profilUpdate']);

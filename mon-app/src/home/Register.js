@@ -92,7 +92,7 @@ export class Register extends Component {
         data.set('passwordConfirmed', this.state.passwordConfirmed);
         Axios.post('http://127.0.0.1:8000/registration', data, {withCredentials: true})
             .then(res => {
-                console.log(res)
+                console.log('reussite', res)
             })
             .catch(error => {
                 console.log(error.response)

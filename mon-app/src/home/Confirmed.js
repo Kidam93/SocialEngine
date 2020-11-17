@@ -30,7 +30,6 @@ export class Confirmed extends Component {
                     this.setState({
                         redirection: false
                     })
-
                 }
                 console.log(res)
             })

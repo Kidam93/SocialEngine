@@ -11,3 +11,38 @@
 .text{
     display: block;
 }
+#presentation{
+    display: flex;
+    justify-content: space-between;
+    height: 200px;
+}
+#update{
+    position: relative;
+    top: 35px;
+}
+#update:hover{
+    color: black;
+}
+#img-profil{
+    width: 90px;
+    height: 90px;
+}
+#content-post{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+#content-post a{
+    color: red;
+    font-size: 12px;
+    position: relative;
+    bottom: 0px;
+}
+#content{
+    display: flex;
+}
+#custom-profil{
+    height: 125px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
