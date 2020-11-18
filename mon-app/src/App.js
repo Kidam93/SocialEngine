@@ -7,6 +7,7 @@ import {Search} from './search/Search.js';
 import {DeletePost} from './profil/DeletePost';
 import {UpdateProfil} from './profil/UpdateProfil';
 import {Explore} from './explore/Explore'
+import {User} from './user/User'
 import {
   BrowserRouter as Router,
   Switch,
@@ -45,6 +46,7 @@ function App() {
           <Route path="/explore">
             <Explore />
           </Route>
+          <Route path="/user-:id" component={User}/>
           <Route path="/profil-update" component={UpdateProfil}/>
           <Route path="/profil-delete-:id" component={DeletePost}/>
           <Route path='/confirmed/:id-:token' component={Confirmed} />

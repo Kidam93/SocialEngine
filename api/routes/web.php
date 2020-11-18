@@ -4,6 +4,7 @@ use Faker\Provider\Base;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RegistrationController;
@@ -36,3 +37,5 @@ Route::get('/explore', [SearchController::class, 'all']);
 // POST
 Route::get('/profil-delete-{id}', [ProfilController::class, 'postDelete']);
 Route::post('/profil-update', [ProfilController::class, 'profilUpdate']);
+// USER
+Route::get('/user-{id}', [UserController::class, 'user']);

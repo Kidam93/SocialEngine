@@ -132,6 +132,7 @@ export class Explore extends Component{
             <div class="row row-cols-1 row-cols-md-4">
             {Object.keys(JSON.parse(this.state.all)).map((key) =>
                 <div class="col mb-4">
+                    <Link className="nav-link" to={`/user-`+JSON.parse(this.state.all)[key].id}>
                     <div class="card" id="card">
                     <div id="cadre" class="mx-auto">
                       <img src={`http://127.0.0.1:8000/storage/pictures/`+JSON.parse(this.state.all)[key].img} class="card-img-top" alt="..." id="img-search"/>
@@ -142,6 +143,7 @@ export class Explore extends Component{
                     </div>
                     <small class="ml-2" id="date">{ JSON.parse(this.state.all)[key].created_at }</small>
                     </div>
+                    </Link>
                 </div>
             )}
             </div>
