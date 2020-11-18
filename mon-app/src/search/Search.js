@@ -121,16 +121,21 @@ export class Search extends Component{
           
           { 
             Object.keys(JSON.parse(this.state.search)).map((key) =>
+              <React.Fragment>
+              <Link className="nav-link" to={`/user-`+JSON.parse(this.state.search)[key].id}>
               <div class="media text-muted pt-3">
                 <img className="mr-3" src={`http://127.0.0.1:8000/storage/pictures/`+JSON.parse(this.state.search)[key].img} alt="" id="img-profil"/>
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <div class="media-body pb-3 mb-0 lh-125">
                   <div class="d-flex justify-content-between align-items-center w-100">
                     <strong class="text-gray-dark">{ JSON.parse(this.state.search)[key].firstname } { JSON.parse(this.state.search)[key].lastname }</strong>
-                    <a href="#">Follow</a>
                   </div>
-                  <span class="d-block">@username</span>
+                  <small class="d-block">{ JSON.parse(this.state.search)[key].describe }</small>
+                  <small class="d-block">{ JSON.parse(this.state.search)[key].created_at }</small>
                 </div>
               </div>
+              <p class="border-bottom border-gray mt-4"></p>
+              </Link>
+              </React.Fragment>
             )}
 
           {/* endfor */}

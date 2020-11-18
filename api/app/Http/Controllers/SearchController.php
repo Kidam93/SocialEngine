@@ -22,7 +22,7 @@ class SearchController extends Controller
                 $users = DB::table('users')->where('users.id', '!=', $id)
                                         ->where('firstname', 'LIKE', "%{$search}%")
                                         ->orWhere('lastname', 'LIKE', "%{$search}%")
-                                        ->select('id', 'firstname', 'lastname', 'img')->get();
+                                        ->select('id', 'firstname', 'lastname', 'img', 'describe', 'created_at')->get();
                 return response()->json(['users' => $users]);   
             }
         }else{
