@@ -1,8 +1,6 @@
 #main{
     min-height: 90vh;
     background-color: #F8F9FA;
-    /* padding-left: 15px;
-    padding-right: 15px; */
 }
 #span{
     margin-top: 20px;
@@ -20,13 +18,44 @@
         padding-right: 15px; */
     }
 }
-#img{
+/* #img{
     max-height: 180px;
     width: auto;
-}
+} */
 #card{
     height: 300px;
 }
 #cadre{
     height: 180px;
+}
+#img-search{
+    margin-top: 10px;
+    width: calc(70px + 7.5vw);
+    height: calc(70px + 7.5vw);
+    max-height: 165px;
+    max-width: 165px;
+}
+#date{
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+}
+#content-box h5{
+    display: flex;
+    justify-content: center;
+}
+/* 768px */
+@media (max-width: 768px) {
+    #img-search{
+        margin-top: 10px;
+        width: calc(200px);
+        height: calc(200px);
+        max-height: none;
+        max-width: none;
+    }
+    #content-box{
+        position: relative;
+        top: 25px;
+        height: 50px;
+    }
 }

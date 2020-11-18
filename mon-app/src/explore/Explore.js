@@ -129,18 +129,18 @@ export class Explore extends Component{
           
 
             {/* card */}
-            <div class="row row-cols-1 row-cols-md-3">
+            <div class="row row-cols-1 row-cols-md-4">
             {Object.keys(JSON.parse(this.state.all)).map((key) =>
                 <div class="col mb-4">
                     <div class="card" id="card">
-                    <div id="cadre">
-                    <img src={`http://127.0.0.1:8000/storage/pictures/`+JSON.parse(this.state.all)[key].img} class="card-img-top" alt="..." id="img"/>
+                    <div id="cadre" class="mx-auto">
+                      <img src={`http://127.0.0.1:8000/storage/pictures/`+JSON.parse(this.state.all)[key].img} class="card-img-top" alt="..." id="img-search"/>
                     </div>
-                    <div class="mt-2 ml-2">
+                    <div class="mt-2 ml-2 mr-2" id="content-box">
                         <h5 class="card-title">{ JSON.parse(this.state.all)[key].firstname } { JSON.parse(this.state.all)[key].lastname }</h5>
-                        <p class="card-text">{ JSON.parse(this.state.all)[key].describe }</p>
-                        <small class="">{ JSON.parse(this.state.all)[key].created_at }</small>
+                        <small class="card-text">{ JSON.parse(this.state.all)[key].describe }</small><br/>
                     </div>
+                    <small class="ml-2" id="date">{ JSON.parse(this.state.all)[key].created_at }</small>
                     </div>
                 </div>
             )}
