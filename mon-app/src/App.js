@@ -8,6 +8,7 @@ import {DeletePost} from './profil/DeletePost';
 import {UpdateProfil} from './profil/UpdateProfil';
 import {Explore} from './explore/Explore'
 import {User} from './user/User'
+import {Friend} from './friend/Friend.js'
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,9 +21,7 @@ import React, { useEffect, useState } from 'react';
 
 function App() {
   const [id, setId] = useState(null)
-
-  // console.log("App", id)
-
+  
   return (
     <div className="App">
       <Router>
@@ -46,10 +45,13 @@ function App() {
           <Route path="/explore">
             <Explore />
           </Route>
-          <Route path="/user-:id" component={User}/>
+          <Route path="/friend">
+            <Friend />
+          </Route>
+          <Route exact path="/user-:id" component={User}/>
           <Route path="/profil-update" component={UpdateProfil}/>
           <Route path="/profil-delete-:id" component={DeletePost}/>
-          <Route path='/confirmed/:id-:token' component={Confirmed} />
+          <Route path='/confirmed/:id-:token' component={Confirmed}/>
         </Switch>
       </div>
     </Router>

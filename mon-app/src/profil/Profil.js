@@ -111,10 +111,10 @@ async handleSubmit(event) {
         <nav className="nav nav-underline">
           <Link className="nav-link" to="/profil">Profil</Link>
           <a className="nav-link active" href="#">Dashboard</a>
-          <a className="nav-link" href="#">
+          <Link className="nav-link" to="/friend">
             Friends
             <span class="badge badge-pill bg-light align-text-bottom">27</span>
-          </a>
+          </Link>
           <Link className="nav-link" to="/explore">Explore</Link>
           <a className="nav-link" href="#">Suggestions</a>
         </nav>

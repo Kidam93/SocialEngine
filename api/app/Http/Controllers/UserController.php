@@ -26,4 +26,12 @@ class UserController extends Controller
             return response()->json(['error' => 'redirect']);
         }
     }
+
+    public function userAdd($id){
+        if($this->request->session()->get('user')){
+            return response()->json(['user-add-' => $id]);
+        }else{
+            return response()->json(['error' => 'redirect']);
+        }
+    }
 }

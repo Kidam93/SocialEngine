@@ -8,7 +8,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import { PartialNavbar } from '../partials/PartialNavbar';
 import InputGroup from 'react-bootstrap/InputGroup'
-import './explore.css';
+import './friend.css';
 
 import {
     BrowserRouter as Router,
@@ -18,7 +18,7 @@ import {
     Redirect
   } from "react-router-dom";
 
-export class Explore extends Component{
+export class Friend extends Component{
 
     constructor(props) {
         super(props);
@@ -33,14 +33,14 @@ export class Explore extends Component{
 
     componentDidMount(){
         // EXPLORE FIND ALL
-        Axios.get('http://127.0.0.1:8000/explore/', {withCredentials: true})
+        Axios.get('http://127.0.0.1:8000/friend/', {withCredentials: true})
             .then((res) => {
-                const data = JSON.stringify(res.data.users)
-                localStorage.setItem('search', data)
-                this.setState({
-                    all: JSON.stringify(res.data.users)
-                })
-
+                // const data = JSON.stringify(res.data.users)
+                // localStorage.setItem('search', data)
+                // this.setState({
+                //     all: JSON.stringify(res.data.users)
+                // })
+                console.log(res)
             })
             .catch((error) => {
                 console.log('error..', error)
@@ -111,10 +111,10 @@ export class Explore extends Component{
           <nav class="nav nav-underline">
             <Link class="nav-link" to="/profil">Profil</Link>
             <a class="nav-link active" href="#">Dashboard</a>
-            <Link className="nav-link" to="/friend">
+            <a class="nav-link" href="#">
               Friends
               <span class="badge badge-pill bg-light align-text-bottom">27</span>
-            </Link>
+            </a>
             <Link className="nav-link" to="/explore">Explore</Link>
             <a class="nav-link" href="#">Suggestions</a>
           </nav>

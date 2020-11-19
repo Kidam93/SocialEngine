@@ -25,7 +25,10 @@ export class User extends Component {
         post: '',
         posts_user: '',
         describe: '',
+        change: false
     };
+    
+    this.handleAddUserSubmit = this.handleAddUserSubmit.bind(this);
   }
     
   componentDidMount(){
@@ -50,6 +53,29 @@ export class User extends Component {
           .catch((error) => {
               // console.log('error', error)
           })
+  }
+
+    async handleAddUserSubmit(event) {
+      event.preventDefault();
+      const id = this.props.match.params.id;
+      console.log('props id', id)
+      this.setState({ change: true })
+      let data = new FormData(event.target)
+      const response = await fetch('http://127.0.0.1:8000/user-'+id, {
+          method: 'POST',
+          body: data,
+          credentials: 'include',
+          headers: {
+              Accept: 'application/json'
+          }
+      })
+      let value = response.json();
+      value.then(res => {
+        console.log(res)
+        this.setState({ change: false })
+      }).catch( error => {
+        console.log(error)
+      })
   }
 
   render() {
@@ -95,26 +121,21 @@ export class User extends Component {
             {/* <Link class="nav-link" to={'profil-update'} id="update">Modifier</Link> */}
           </small>
           </div>
-          {/* <form className="my-3 p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit}>
-            <textarea className="posts" placeholder="your post here.." name="post" value={this.state.post} onChange={this.handlePostChange}></textarea>
-            <button type="submit" class="btn btn-success">Ok</button>
-          </form> */}
+
           <div className="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 className="border-bottom border-gray pb-2 mb-0">Recent posts</h6>
+            <h6 className="border-bottom border-gray pb-2 mb-0">Vous n'etes pas amis</h6>
             <div className="media text-muted pt-3">
-            <div className="container">
-              {/* POSTS */}
-              {Object.keys(this.state.posts_user).map((key) => 
-                <div className="border-bottom border-gray" id="content-post">
-                  <p>{ this.state.posts_user[key].content }</p>
-                  <Link class="nav-link" to={'profil-delete-'+this.state.posts_user[key].id}>Delete</Link>
+              <div className="container">
+                <form class="form-signin" onSubmit={this.handleAddUserSubmit}>
+                <div class="form-label-group">
+                    <input type="hidden" id="inputEmail" class="form-control" placeholder="Email address" name="add-user" value={this.state.id} />
                 </div>
-              )}
-              {/* END POSTS */}
+                <button class="btn btn-success" disabled={this.state.change} type="submit">Ajouter</button>
+                </form>
               </div>
             </div>
-          </div>
-
+          </div> 
+          
         </main>
         </body>
         </React.Fragment>

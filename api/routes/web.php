@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RegistrationController;
@@ -39,3 +40,6 @@ Route::get('/profil-delete-{id}', [ProfilController::class, 'postDelete']);
 Route::post('/profil-update', [ProfilController::class, 'profilUpdate']);
 // USER
 Route::get('/user-{id}', [UserController::class, 'user']);
+Route::post('/user-{id}', [UserController::class, 'userAdd']);
+// FRIEND
+Route::get('/friend', [FriendController::class, 'findFriend']);

@@ -95,10 +95,10 @@ export class Search extends Component{
           <nav class="nav nav-underline">
           <Link className="nav-link" to="/profil">Profil</Link>
             <a class="nav-link active" href="#">Dashboard</a>
-            <a class="nav-link" href="#">
+            <Link className="nav-link" to="/friend">
               Friends
               <span class="badge badge-pill bg-light align-text-bottom">27</span>
-            </a>
+            </Link>
             <Link className="nav-link" to="/explore">Explore</Link>
             <a class="nav-link" href="#">Suggestions</a>
           </nav>
