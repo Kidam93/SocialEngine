@@ -25,7 +25,8 @@ export class User extends Component {
         post: '',
         posts_user: '',
         describe: '',
-        change: false
+        change: false,
+        is_friend: false
     };
     
     this.handleAddUserSubmit = this.handleAddUserSubmit.bind(this);
@@ -45,6 +46,16 @@ export class User extends Component {
                   created: res.data.user[0].created_at,
                   describe: res.data.user[0].describe
                 })
+                // IF FRIEND OR NOT
+                if(res.data.is_friend === true){
+                  this.setState({
+                    is_friend: true
+                  })
+                }else{
+                  this.setState({
+                    is_friend: false
+                  })
+                }
                 console.log('user res..valid', res)
               }else{
                 console.log('user res..error', res)
@@ -122,6 +133,7 @@ export class User extends Component {
           </small>
           </div>
 
+          { !this.state.is_friend ?
           <div className="my-3 p-3 bg-white rounded shadow-sm">
             <h6 className="border-bottom border-gray pb-2 mb-0">Vous n'etes pas amis</h6>
             <div className="media text-muted pt-3">
@@ -135,7 +147,17 @@ export class User extends Component {
               </div>
             </div>
           </div> 
-          
+          :
+          <div className="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 className="border-bottom border-gray pb-2 mb-0">Vous etes amis</h6>
+            <div className="media text-muted pt-3">
+              <div className="container">
+                
+              </div>
+            </div>
+          </div> 
+          }
+
         </main>
         </body>
         </React.Fragment>

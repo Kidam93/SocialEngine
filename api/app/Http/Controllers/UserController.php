@@ -18,11 +18,15 @@ class UserController extends Controller
         if($this->request->session()->get('user')){
             $user = DB::table('users')->where('id', $id)
                 ->select('id', 'firstname', 'lastname', 'img', 'describe', 'created_at')->get();
-                // if(count($user) !== (int)0){
-                //     return response()->json(['user' => $user]);
-                // }
-                // return response()->json(['user' => NULL]);
-                return response()->json(['user' => $user]);
+            // IF FRIEND OR NOT ?
+            $isFriend = self::isFriend($id);
+            if(!empty($isFriend)){
+                // IS FRIEND
+                return response()->json(['user' => $user, 'is_friend' => true]);
+            }else{
+                // IS NOT
+                return response()->json(['user' => $user, 'is_friend' => false]);
+            }
         }else{
             return response()->json(['error' => 'redirect']);
         }
@@ -34,5 +38,15 @@ class UserController extends Controller
         }else{
             return response()->json(['error' => 'redirect']);
         }
+    }
+
+    private static function isFriend($id){
+        return DB::select(DB::raw("SELECT *, users.id
+                FROM users 
+                JOIN friend ON (users.id = friend.user_id OR users.id = friend.friend_id)
+                WHERE (friend.user_id = $id
+                OR friend.friend_id = $id)
+                AND users.id != $id
+                AND friend.confirmed = 1"));
     }
 }
