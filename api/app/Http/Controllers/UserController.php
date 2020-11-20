@@ -18,10 +18,11 @@ class UserController extends Controller
         if($this->request->session()->get('user')){
             $user = DB::table('users')->where('id', $id)
                 ->select('id', 'firstname', 'lastname', 'img', 'describe', 'created_at')->get();
-                if(count($user) !== (int)0){
-                    return response()->json(['user' => $user]);
-                }
-                return response()->json(['user' => NULL]);
+                // if(count($user) !== (int)0){
+                //     return response()->json(['user' => $user]);
+                // }
+                // return response()->json(['user' => NULL]);
+                return response()->json(['user' => $user]);
         }else{
             return response()->json(['error' => 'redirect']);
         }

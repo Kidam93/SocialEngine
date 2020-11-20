@@ -37,7 +37,6 @@ export class User extends Component {
       Axios.get('http://127.0.0.1:8000/user-'+id, {withCredentials: true})
           .then((res) => {
               if(res.data.user !== null){
-                localStorage.setItem('redirect', true)
                 localStorage.setItem('img_user', res.data.user[0].img)
                 this.setState({
                   id: res.data.user[0].id,
@@ -46,8 +45,9 @@ export class User extends Component {
                   created: res.data.user[0].created_at,
                   describe: res.data.user[0].describe
                 })
+                console.log('user res..valid', res)
               }else{
-                localStorage.setItem('redirect', false)
+                console.log('user res..error', res)
               }
           })
           .catch((error) => {
@@ -58,7 +58,7 @@ export class User extends Component {
     async handleAddUserSubmit(event) {
       event.preventDefault();
       const id = this.props.match.params.id;
-      console.log('props id', id)
+      // console.log('props id', id)
       this.setState({ change: true })
       let data = new FormData(event.target)
       const response = await fetch('http://127.0.0.1:8000/user-'+id, {
@@ -89,10 +89,10 @@ export class User extends Component {
           <nav className="nav nav-underline">
             <Link className="nav-link" to="/profil">Profil</Link>
             <a className="nav-link active" href="#">Dashboard</a>
-            <a className="nav-link" href="#">
+            <Link className="nav-link" to="/friend">
               Friends
               <span class="badge badge-pill bg-light align-text-bottom">27</span>
-            </a>
+            </Link>
             <Link className="nav-link" to="/explore">Explore</Link>
             <a className="nav-link" href="#">Suggestions</a>
           </nav>

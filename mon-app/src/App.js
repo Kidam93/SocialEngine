@@ -20,21 +20,22 @@ import { Confirmed } from './home/Confirmed.js';
 import React, { useEffect, useState } from 'react';
 
 function App() {
-  const [id, setId] = useState(null)
   
+  
+
   return (
     <div className="App">
       <Router>
       <div>
         <Switch>
           <Route exact path="/">
-            <Login propertyFunc={setId} />
+            <Login />
           </Route>
           <Route path="/register">
             <Register />
           </Route>
           <Route path="/profil">
-            <Profil propertyState={id} />
+            <Profil />
           </Route>
           <Route path="/disconnected">
             <Disconnected />
@@ -54,7 +55,7 @@ function App() {
           <Route path='/confirmed/:id-:token' component={Confirmed}/>
         </Switch>
       </div>
-    </Router>
+      </Router>
     </div>
   );
 }

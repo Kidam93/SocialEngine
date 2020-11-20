@@ -14,10 +14,17 @@ class FriendController extends Controller
         $this->request = $request;
     }
 
-    public function findFriend(){
+    public function all(){
         if(!empty($this->request->session()->get('user'))){
-            
-            return response()->json(['users' => NULL]);
+            $id = $this->request->session()->get('user')->id;
+            $user = DB::select(DB::raw("SELECT *, users.id
+                        FROM users 
+                        JOIN friend ON (users.id = friend.user_id OR users.id = friend.friend_id)
+                        WHERE (friend.user_id = $id
+                        OR friend.friend_id = $id)
+                        AND users.id != $id
+                        AND friend.confirmed = 1"));
+            return response()->json(['users' => $user]);
         }else{
             return response()->json(['error' => 'redirect']);
         }

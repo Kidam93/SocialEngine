@@ -42,4 +42,4 @@ Route::post('/profil-update', [ProfilController::class, 'profilUpdate']);
 Route::get('/user-{id}', [UserController::class, 'user']);
 Route::post('/user-{id}', [UserController::class, 'userAdd']);
 // FRIEND
-Route::get('/friend', [FriendController::class, 'findFriend']);
+Route::get('/friend', [FriendController::class, 'all']);

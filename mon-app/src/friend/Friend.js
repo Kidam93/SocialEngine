@@ -35,15 +35,15 @@ export class Friend extends Component{
         // EXPLORE FIND ALL
         Axios.get('http://127.0.0.1:8000/friend/', {withCredentials: true})
             .then((res) => {
-                // const data = JSON.stringify(res.data.users)
-                // localStorage.setItem('search', data)
-                // this.setState({
-                //     all: JSON.stringify(res.data.users)
-                // })
-                console.log(res)
+                const data = JSON.stringify(res.data.users)
+                localStorage.setItem('search', data)
+                this.setState({
+                    all: JSON.stringify(res.data.users)
+                })
+                console.log('result_friend', res.data.users)
             })
             .catch((error) => {
-                console.log('error..', error)
+                console.log('error..!', error)
             })
     }
 
@@ -75,7 +75,6 @@ export class Friend extends Component{
 
     render(){
     console.log('state all..', this.state.all)
-    console.log('state search..', this.state.search)
       let redirect = localStorage.getItem('redirect');
       if(redirect === 'true'){
         return <React.Fragment>
@@ -111,10 +110,10 @@ export class Friend extends Component{
           <nav class="nav nav-underline">
             <Link class="nav-link" to="/profil">Profil</Link>
             <a class="nav-link active" href="#">Dashboard</a>
-            <a class="nav-link" href="#">
+            <Link className="nav-link" to="/friend">
               Friends
               <span class="badge badge-pill bg-light align-text-bottom">27</span>
-            </a>
+            </Link>
             <Link className="nav-link" to="/explore">Explore</Link>
             <a class="nav-link" href="#">Suggestions</a>
           </nav>
