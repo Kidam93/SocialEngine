@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,9 +35,13 @@ class UserController extends Controller
         }
     }
 
-    public function userAdd($id){
+    public function userAdd($idUser){
         if($this->request->session()->get('user')){
-            return response()->json(['user-add-' => $id]);
+            // SET CONFIRMED 0
+            $id = $this->request->session()->get('user')->id;
+            DB::insert('insert into friend (user_id, friend_id, confirmed, created_at, updated_at) values (?, ?, ?, ?, ?)', 
+                [$id, $idUser, 0, new DateTime(), new DateTime()]);
+            return response()->json(['user-add-' => $idUser]);
         }else{
             return response()->json(['error' => 'redirect']);
         }
