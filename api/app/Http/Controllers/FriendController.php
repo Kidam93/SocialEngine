@@ -34,6 +34,16 @@ class FriendController extends Controller
         return response()->json(['user' => $user, 'is_friend' => $verify, 'accept' => $myInvitation, 'id' => $id]);
     }
 
+    public function deleteFriend($idUser){
+        $id = $this->request->session()->get('user')->id;
+        self::deleteAccept($id, $idUser);
+        $user = DB::table('users')->where('id', $idUser)
+                ->select('id', 'firstname', 'lastname', 'img', 'describe', 'created_at')->get();
+        $verify = self::isFriendVerify($id, $idUser);
+        $myInvitation = self::myInvitation($id, $idUser);
+        return response()->json(['user' => $user, 'is_friend' => $verify, 'accept' => $myInvitation, 'id' => $id]);
+    }
+
     private static function isFriend($id){
         return DB::select(DB::raw("SELECT *, users.id
                 FROM users 
@@ -47,6 +57,16 @@ class FriendController extends Controller
     private static function updateAccept($id, $idUser){
         return DB::update('update friend set confirmed = ? where user_id = ? and friend_id = ?', 
             [1 , $idUser , $id]);
+    }
+
+    private static function deleteAccept($id, $idUser){
+        return DB::delete(DB::raw("DELETE 
+                FROM friend
+                WHERE ((friend.user_id = $id
+                AND friend.friend_id = $idUser) 
+                OR (friend.user_id = $idUser
+                AND friend.friend_id = $id))
+                AND friend.confirmed = 1"));
     }
 
     private static function isFriendVerify($id, $idUser){

@@ -31,6 +31,7 @@ export class User extends Component {
     
     this.handleAddUserSubmit = this.handleAddUserSubmit.bind(this);
     this.handleAcceptUserSubmit = this.handleAcceptUserSubmit.bind(this);
+    this.handleDeleteUserSubmit = this.handleDeleteUserSubmit.bind(this);
   }
     
   componentDidMount(){
@@ -213,6 +214,37 @@ export class User extends Component {
       })
   }
 
+  async handleDeleteUserSubmit(event){
+    event.preventDefault();
+      const id = this.props.match.params.id;
+      this.setState({ change: true })
+      let data = new FormData(event.target)
+      const response = await fetch('http://127.0.0.1:8000/friend-delete-'+id, {
+          method: 'POST',
+          body: data,
+          credentials: 'include',
+          headers: {
+              Accept: 'application/json'
+          }
+      })
+      let value = response.json();
+      value.then(res => {
+        this.setState({ change: false })
+        Axios.get('http://127.0.0.1:8000/user-'+id, {withCredentials: true})
+          .then((res) => {
+              // IF FRIEND OR NOT
+              this.setState({
+                is_friend: null
+              })
+          })
+          .catch((error) => {
+              // console.log('error', error)
+          })
+      }).catch( error => {
+        console.log(error)
+      })
+  }
+
   render() {
     let img = localStorage.getItem('img_user')
     let redirect = localStorage.getItem('redirect');
@@ -309,13 +341,18 @@ export class User extends Component {
           }
           { this.state.is_friend == 1 &&
           <div className="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 className="border-bottom border-gray pb-2 mb-0">Vous etes amis</h6>
-            <div className="media text-muted pt-3">
-              <div className="container">
-                
+          <h6 className="border-bottom border-gray pb-2 mb-0">Vous etes amis</h6>
+          <div className="media text-muted pt-3">
+            <div className="container">
+              <form class="form-signin" onSubmit={this.handleDeleteUserSubmit}>
+              <div class="form-label-group">
+                  <input type="hidden" id="inputEmail" class="form-control" placeholder="Email address" name="add-user" value={this.state.id} />
               </div>
+              <button class="btn btn-danger" disabled={this.state.change} type="submit">Supprimer</button>
+              </form>
             </div>
-          </div> 
+          </div>
+        </div> 
           }
         </main>
         </body>
