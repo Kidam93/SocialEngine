@@ -43,3 +43,4 @@ Route::get('/user-{id}', [UserController::class, 'user']);
 Route::post('/user-{id}', [UserController::class, 'userAdd']);
 // FRIEND
 Route::get('/friend', [FriendController::class, 'all']);
+Route::post('/friend-{id}', [FriendController::class, 'friendAccept']);

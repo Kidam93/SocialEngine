@@ -26,10 +26,11 @@ export class User extends Component {
         posts_user: '',
         describe: '',
         change: false,
-        is_friend: false
+        is_friend: 'Loading...'
     };
     
     this.handleAddUserSubmit = this.handleAddUserSubmit.bind(this);
+    this.handleAcceptUserSubmit = this.handleAcceptUserSubmit.bind(this);
   }
     
   componentDidMount(){
@@ -44,21 +45,36 @@ export class User extends Component {
                   firstName: res.data.user[0].firstname,
                   lastName: res.data.user[0].lastname,
                   created: res.data.user[0].created_at,
-                  describe: res.data.user[0].describe
+                  describe: res.data.user[0].describe,
+                  is_friend: null,
                 })
                 // IF FRIEND OR NOT
-                if(res.data.is_friend === true){
+                if(res.data.is_friend[0].confirmed === 1){
                   this.setState({
-                    is_friend: true
+                    is_friend: 1
                   })
+                }else if(res.data.is_friend[0].confirmed === 0){
+                  if(res.data.id === res.data.accept[0].friend_id){
+                    // ACCEPT INVITATION
+                    this.setState({
+                      is_friend: 'accept'
+                    })
+                  }else{
+                    // INVITATION ENVOYEE
+                    this.setState({
+                      is_friend: 0
+                    })
+                  }
+                  // console.log('myInvitation', res.data.accept[0].friend_id)
+                  // console.log('myId', res.data.id)
                 }else{
                   this.setState({
-                    is_friend: false
+                    is_friend: null
                   })
                 }
-                console.log('user res..valid', res)
+                // console.log('is friend verif ', res)
               }else{
-                console.log('user res..error', res)
+                // console.log('user res..error', res)
               }
           })
           .catch((error) => {
@@ -82,8 +98,116 @@ export class User extends Component {
       })
       let value = response.json();
       value.then(res => {
-        console.log(res)
+        console.log('res!', res)
         this.setState({ change: false })
+        Axios.get('http://127.0.0.1:8000/user-'+id, {withCredentials: true})
+          .then((res) => {
+              if(res.data.user !== null){
+                localStorage.setItem('img_user', res.data.user[0].img)
+                this.setState({
+                  id: res.data.user[0].id,
+                  firstName: res.data.user[0].firstname,
+                  lastName: res.data.user[0].lastname,
+                  created: res.data.user[0].created_at,
+                  describe: res.data.user[0].describe
+                })
+                // IF FRIEND OR NOT
+                if(res.data.is_friend[0].confirmed === 1){
+                  this.setState({
+                    is_friend: 1
+                  })
+                }else if(res.data.is_friend[0].confirmed === 0){
+                  if(res.data.id === res.data.accept[0].friend_id){
+                    // ACCEPT INVITATION
+                    this.setState({
+                      is_friend: 'accept'
+                    })
+                  }else{
+                    // INVITATION ENVOYEE
+                    this.setState({
+                      is_friend: 0
+                    })
+                  }
+                  // console.log('myInvitation', res.data.accept[0].friend_id)
+                  // console.log('myId', res.data.id)
+                }else{
+                  this.setState({
+                    is_friend: null
+                  })
+                }
+                // console.log('is friend verif ', res)
+              }else{
+                // console.log('user res..error', res)
+              }
+          })
+          .catch((error) => {
+              // console.log('error', error)
+          })
+      }).catch( error => {
+        console.log(error)
+      })
+  }
+
+  async handleAcceptUserSubmit(event){
+    event.preventDefault();
+      const id = this.props.match.params.id;
+      this.setState({ change: true })
+      let data = new FormData(event.target)
+      const response = await fetch('http://127.0.0.1:8000/friend-'+id, {
+          method: 'POST',
+          body: data,
+          credentials: 'include',
+          headers: {
+              Accept: 'application/json'
+          }
+      })
+      let value = response.json();
+      value.then(res => {
+        console.log('res!', res)
+        this.setState({ change: false })
+        Axios.get('http://127.0.0.1:8000/user-'+id, {withCredentials: true})
+          .then((res) => {
+              if(res.data.user !== null){
+                localStorage.setItem('img_user', res.data.user[0].img)
+                this.setState({
+                  id: res.data.user[0].id,
+                  firstName: res.data.user[0].firstname,
+                  lastName: res.data.user[0].lastname,
+                  created: res.data.user[0].created_at,
+                  describe: res.data.user[0].describe
+                })
+                // IF FRIEND OR NOT
+                if(res.data.is_friend[0].confirmed === 1){
+                  this.setState({
+                    is_friend: 1
+                  })
+                }else if(res.data.is_friend[0].confirmed === 0){
+                  if(res.data.id === res.data.accept[0].friend_id){
+                    // ACCEPT INVITATION
+                    this.setState({
+                      is_friend: 'accept'
+                    })
+                  }else{
+                    // INVITATION ENVOYEE
+                    this.setState({
+                      is_friend: 0
+                    })
+                  }
+                  // console.log('myInvitation', res.data.accept[0].friend_id)
+                  // console.log('myId', res.data.id)
+                }else{
+                  this.setState({
+                    is_friend: null
+                  })
+                }
+                // console.log('is friend verif ', res)
+              }else{
+                // console.log('user res..error', res)
+              }
+          })
+          .catch((error) => {
+              // console.log('error', error)
+          })
       }).catch( error => {
         console.log(error)
       })
@@ -92,6 +216,7 @@ export class User extends Component {
   render() {
     let img = localStorage.getItem('img_user')
     let redirect = localStorage.getItem('redirect');
+    // console.log('state', this.state.is_friend)
     if(redirect === 'true'){
       return <React.Fragment>
           <body className="bg-light">
@@ -132,8 +257,17 @@ export class User extends Component {
             {/* <Link class="nav-link" to={'profil-update'} id="update">Modifier</Link> */}
           </small>
           </div>
-
-          { !this.state.is_friend ?
+          { this.state.is_friend == 'Loading...' &&
+            <div className="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 className="border-bottom border-gray pb-2 mb-0">{this.state.is_friend}</h6>
+            <div className="media text-muted pt-3">
+              <div className="container">
+                
+              </div>
+            </div>
+          </div> 
+          }
+          { this.state.is_friend == null &&
           <div className="my-3 p-3 bg-white rounded shadow-sm">
             <h6 className="border-bottom border-gray pb-2 mb-0">Vous n'etes pas amis</h6>
             <div className="media text-muted pt-3">
@@ -147,7 +281,33 @@ export class User extends Component {
               </div>
             </div>
           </div> 
-          :
+          }
+          { this.state.is_friend == 0 &&
+          <div className="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 className="border-bottom border-gray pb-2 mb-0">Invitation envoyée</h6>
+            <div className="media text-muted pt-3">
+              <div className="container">
+                
+              </div>
+            </div>
+          </div> 
+          }
+          { this.state.is_friend == "accept" &&
+          <div className="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 className="border-bottom border-gray pb-2 mb-0">Demande d'amis</h6>
+            <div className="media text-muted pt-3">
+              <div className="container">
+                <form class="form-signin" onSubmit={this.handleAcceptUserSubmit}>
+                <div class="form-label-group">
+                    <input type="hidden" id="inputEmail" class="form-control" placeholder="Email address" name="add-user" value={this.state.id} />
+                </div>
+                <button class="btn btn-success" disabled={this.state.change} type="submit">Accepter</button>
+                </form>
+              </div>
+            </div>
+          </div> 
+          }
+          { this.state.is_friend == 1 &&
           <div className="my-3 p-3 bg-white rounded shadow-sm">
             <h6 className="border-bottom border-gray pb-2 mb-0">Vous etes amis</h6>
             <div className="media text-muted pt-3">
@@ -157,7 +317,6 @@ export class User extends Component {
             </div>
           </div> 
           }
-
         </main>
         </body>
         </React.Fragment>
