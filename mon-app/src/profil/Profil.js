@@ -25,10 +25,13 @@ export class Profil extends Component {
         post: '',
         posts_user: '',
         describe: '',
+        invitations: '',
+        valuetest: 1
     };
 
     this.handlePostChange = this.handlePostChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAcceptUserSubmit = this.handleAcceptUserSubmit.bind(this);
   }
 
 componentDidMount(){
@@ -41,7 +44,6 @@ componentDidMount(){
                   redirection: true
                 })
               }else{
-                // let img =  JSON.stringify(res.data.user.img);
                 const data = JSON.stringify([res.data.user])
                 localStorage.setItem('search', data)
                 localStorage.setItem('img', res.data.user.img)
@@ -72,6 +74,17 @@ componentDidMount(){
       .catch((error) => {
         
       })
+      // FRIEND
+      Axios.get('http://127.0.0.1:8000/friend-all/', {withCredentials: true})
+          .then((res) => {
+              // console.log('all', res.data.all)
+              this.setState({
+                invitations: res.data.all
+              })
+          })
+          .catch((error) => {
+              
+          })
   }
 
   handlePostChange(event) {
@@ -100,6 +113,34 @@ async handleSubmit(event) {
           post: ''
       })
 }
+
+async handleAcceptUserSubmit(event){
+  event.preventDefault();
+    const id = event.target.user.value
+    this.setState({ change: true })
+    let data = new FormData(event.target)
+    const response = await fetch('http://127.0.0.1:8000/friend-'+id, {
+        method: 'POST',
+        body: data,
+        credentials: 'include',
+        headers: {
+            Accept: 'application/json'
+        }
+    })
+    let value = response.json();
+     // FRIEND
+     Axios.get('http://127.0.0.1:8000/friend-all/', {withCredentials: true})
+     .then((res) => {
+         // console.log('all', res.data.all)
+         this.setState({
+           invitations: res.data.all
+         })
+     })
+     .catch((error) => {
+         
+     })
+}
+
   render() {
     let img = localStorage.getItem('img')
     let redirect = localStorage.getItem('redirect');
@@ -162,43 +203,34 @@ async handleSubmit(event) {
             </div>
           </div>
         </div>
-       
+        
         <div className="my-3 p-3 bg-white rounded shadow-sm">
-          <h6 className="border-bottom border-gray pb-2 mb-0">Suggestions</h6>
+          <h6 className="border-bottom border-gray pb-2 mb-0">Friends request</h6>
+          { Object.keys(this.state.invitations).map((key) =>
           <div className="media text-muted pt-3">
-            <svg className="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+            {/* <svg className="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg> */}
+            <img className="mr-3" src={`http://127.0.0.1:8000/storage/pictures/${this.state.invitations[key].img}`} alt="" id="img-user"/>
             <div className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div className="d-flex justify-content-between align-items-center w-100">
-                <strong className="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
+                <strong className="text-gray-dark">{ this.state.invitations[key].firstname } { this.state.invitations[key].lastname }</strong>
+                {/* <a href={ this.state.invitations[key].id }>Follow</a> */}
+                <form class="form-signin" onSubmit={this.handleAcceptUserSubmit}>
+                <div class="form-label-group">
+                {/* {JSON.stringify(this.state.invitations[key].id)} */}
+                    <input type="hidden" id="inputEmail" class="form-control" placeholder="Email address" name="user" value={this.state.invitations[key].id} />
+                </div>
+                <button class="btn btn-success" disabled={this.state.change} type="submit">Accepter</button>
+                </form>
               </div>
-              <span className="d-block">@username</span>
+              {/* <span className="d-block">@username</span> */}
             </div>
           </div>
-          <div className="media text-muted pt-3">
-            <svg className="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-            <div className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <strong className="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
-              </div>
-              <span className="d-block">@username</span>
-            </div>
-          </div>
-          <div className="media text-muted pt-3">
-            <svg className="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-            <div className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <strong className="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
-              </div>
-              <span className="d-block">@username</span>
-            </div>
-          </div>
+          )}
           <small className="d-block text-right mt-3">
             <a href="#">All suggestions</a>
           </small>
         </div>
+
       </main>
       </body>
     </React.Fragment>

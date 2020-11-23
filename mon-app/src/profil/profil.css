@@ -27,6 +27,10 @@
     width: 125px;
     height: 125px;
 }
+#img-user{
+    width: 65px;
+    height: 65px;
+}
 #content-post{
     margin-top: 15px;
     display: flex;

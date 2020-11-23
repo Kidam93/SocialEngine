@@ -24,6 +24,20 @@ class FriendController extends Controller
         }
     }
 
+    public function allInvitation(){
+        if(!empty($this->request->session()->get('user'))){
+            // EXPERIMENTAL
+            $id = $this->request->session()->get('user')->id;
+            $user = self::isFriend($id);
+            $all = self::allInviation($id);
+            // 
+            return response()->json(['users' => $user, 'all' => $all]);
+            // 
+        }else{
+            return response()->json(['error' => 'redirect']);
+        }
+    }
+
     public function friendAccept($idUser){
         $id = $this->request->session()->get('user')->id;
         self::updateAccept($id, $idUser);
@@ -90,5 +104,16 @@ class FriendController extends Controller
                 AND friend.friend_id = $id))
                 AND users.id != $id
                 AND friend.confirmed = 0"));
+    }
+
+    private static function allInviation($id){
+        return DB::select(DB::raw("SELECT *, users.id
+            FROM users 
+            JOIN friend ON (users.id = friend.user_id OR users.id = friend.friend_id)
+            WHERE (friend.user_id = $id
+            OR friend.friend_id = $id)
+            AND friend.confirmed = 0
+            AND users.id != $id
+            AND friend.user_id != $id"));
     }
 }
