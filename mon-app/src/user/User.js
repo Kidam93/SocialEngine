@@ -49,6 +49,7 @@ export class User extends Component {
                   describe: res.data.user[0].describe,
                   is_friend: null,
                 })
+                console.log('res dataa', res.data.user[0])
                 // IF FRIEND OR NOT
                 if(res.data.is_friend[0].confirmed === 1){
                   this.setState({
@@ -340,6 +341,7 @@ export class User extends Component {
           </div> 
           }
           { this.state.is_friend == 1 &&
+          <React.Fragment>
           <div className="my-3 p-3 bg-white rounded shadow-sm">
           <h6 className="border-bottom border-gray pb-2 mb-0">Vous etes amis</h6>
           <div className="media text-muted pt-3">
@@ -353,7 +355,22 @@ export class User extends Component {
             </div>
           </div>
         </div> 
-          }
+
+        <div className="my-3 p-3 bg-white rounded shadow-sm">
+          <h6 className="border-bottom border-gray pb-2 mb-0">Recent posts</h6>
+            <div className="media text-muted pt-3">
+            <div className="container">
+            {Object.keys(this.state.posts_user).map((key) => 
+                <div className="border-bottom border-gray" id="content-post">
+                  <p>{ this.state.posts_user[key].content }</p>
+                  <Link class="nav-link" to={'profil-delete-'+this.state.posts_user[key].id}>Delete</Link>
+                </div>
+              )}
+              </div>
+            </div>
+        </div>
+        </React.Fragment>
+        }
         </main>
         </body>
         </React.Fragment>

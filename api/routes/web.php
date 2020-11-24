@@ -9,6 +9,8 @@ use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +48,5 @@ Route::get('/friend-all', [FriendController::class, 'allInvitation']);
 Route::get('/friend', [FriendController::class, 'all']);
 Route::post('/friend-delete-{id}', [FriendController::class, 'deleteFriend']);
 Route::post('/friend-{id}', [FriendController::class, 'friendAccept']);
+// EVENT
+Route::get('/dashboard', [DashboardController::class, 'all']);
