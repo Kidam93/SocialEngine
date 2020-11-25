@@ -151,7 +151,7 @@ async handleAcceptUserSubmit(event){
       <div className="nav-scroller bg-white shadow-sm">
         <nav className="nav nav-underline">
           <Link className="nav-link" to="/profil">Profil</Link>
-          <a className="nav-link active" href="#">Dashboard</a>
+          <Link className="nav-link" to="/dashboard">Dashboard</Link>
           <Link className="nav-link" to="/friend">
             Friends
             <span class="badge badge-pill bg-light align-text-bottom">27</span>
@@ -193,12 +193,15 @@ async handleAcceptUserSubmit(event){
           <div className="media text-muted pt-3">
           <div className="container">
             {/* POSTS */}
-            {Object.keys(this.state.posts_user).map((key) => 
+            {/* {!this.state.posts_user && 
+            Object.keys(this.state.posts_user).map((key) => 
               <div className="border-bottom border-gray" id="content-post">
                 <p>{ this.state.posts_user[key].content }</p>
                 <Link class="nav-link" to={'profil-delete-'+this.state.posts_user[key].id}>Delete</Link>
               </div>
-            )}
+            )
+            } */}
+
             {/* END POSTS */}
             </div>
           </div>

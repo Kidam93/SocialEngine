@@ -15,13 +15,18 @@ class PostCreatedEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * @var array
+     */
+    public $post;
+
+    /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array $post)
     {
-        //
+        $this->post = $post;
     }
 
     /**
@@ -31,6 +36,12 @@ class PostCreatedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('chan-demo');
+        return new Channel('chan-test');
+    }
+
+    public function broadcastWith(){
+        return [
+            'titre' => $this->post['name']
+        ];
     }
 }

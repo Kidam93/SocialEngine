@@ -15,13 +15,12 @@ class DashboardController extends Controller
     public function all(){
         if(!empty($this->request->session()->get('user'))){
             // BROADCAST
-            $event = new PostCreatedEvent();
+            $event = new PostCreatedEvent(['name' => 'titre']);
             event($event);
-            
-            return response()->json(['broadcast' => NULL]);
+
+            return response()->json(['broadcast' => $event]);
         }else{
             return response()->json(['error' => 'redirect']);
         }
     }
-
 }

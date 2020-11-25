@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 import { Confirmed } from './home/Confirmed.js';
 import React, { useEffect, useState } from 'react';
+import { Dashboard } from './dashboard/Dashboard.js';
 
 function App() {
   
@@ -48,6 +49,9 @@ function App() {
           </Route>
           <Route path="/friend">
             <Friend />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
           </Route>
           <Route exact path="/user-:id" component={User}/>
           <Route path="/profil-update" component={UpdateProfil}/>
