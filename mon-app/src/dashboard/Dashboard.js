@@ -8,6 +8,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import { PartialNavbar } from '../partials/PartialNavbar';
 import InputGroup from 'react-bootstrap/InputGroup';
+import './dashboard.css';
 
 // import './explore.css';
 // import io from 'socket.io-client';
@@ -41,6 +42,7 @@ export class Dashboard extends Component{
         Axios.get('http://127.0.0.1:8000/dashboard/', {withCredentials: true})
           .then((res) => {
               console.log('all', res)
+              
           })
           .catch((error) => {
               
@@ -59,7 +61,7 @@ export class Dashboard extends Component{
             client: Socketio,
             auth: {
                 headers: {
-                     'Authorization': 'Bearer ' + this.props.token,
+                    'Authorization': 'Bearer ' + this.props.token,
                 },
             },
         });
@@ -88,20 +90,40 @@ export class Dashboard extends Component{
         // POST
         Axios.get('http://127.0.0.1:8000/dashboard/', {withCredentials: true})
         .then((res) => {
-            console.log('all', res)
+            // console.log('all', res)
         })
         .catch((error) => {
             
         })
-  }
+    }
 
     render(){
         return <React.Fragment>
-            <div>Dashboard</div>
-            <form className="my-3 p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit}>
-                <textarea className="posts" placeholder="your post here.." name="post" value={this.state.post} onChange={this.handlePostChange}></textarea>
-                <button type="submit" class="btn btn-success">Ok</button>
-            </form>
+            <body id="body">
+                <PartialNavbar />
+                <div className="nav-scroller bg-white shadow-sm">
+                    <nav className="nav nav-underline">
+                    <Link className="nav-link" to="/profil">Profil</Link>
+                    <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                    <Link className="nav-link" to="/friend">
+                        Friends
+                        <span class="badge badge-pill bg-light align-text-bottom">27</span>
+                    </Link>
+                    <Link className="nav-link" to="/explore">Explore</Link>
+                    <a className="nav-link" href="#">Suggestions</a>
+                    </nav>
+                </div>
+                <div>Dashboard</div>
+                <div class="" id="wall-conversation">
+                    
+                </div>
+                <div class="" id="form">
+                <form className="p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit} id="form-form">
+                    <textarea className="posts" placeholder="your post here.." name="post" value={this.state.post} onChange={this.handlePostChange}></textarea>
+                    <button type="submit" class="btn btn-success">Ok</button>
+                </form>
+                </div>
+            </body>
         </React.Fragment>
     }
 }

@@ -1,0 +1,29 @@
+*, html{
+    margin: 0;
+    padding: 0;
+}
+#body{
+    margin: 0px;
+    padding: 0px;
+}
+#wall-conversation{
+    height: calc(100vh - 310px);
+}
+#form{
+    height: 150px;
+    margin: 0px;
+    padding: 0px;
+}
+#form-form{
+    margin: 0px;
+    padding: 0px;
+}
+textarea{
+    margin: 0px;
+    padding: 0px;
+}
+@media screen and (min-width: 500px) {
+    #wall-conversation{
+        height: calc(100vh - 270px);
+    }
+}
