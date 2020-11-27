@@ -94,7 +94,7 @@ export class Search extends Component{
         <div class="nav-scroller bg-white shadow-sm">
           <nav class="nav nav-underline">
           <Link className="nav-link" to="/profil">Profil</Link>
-            <a class="nav-link active" href="#">Dashboard</a>
+          <Link className="nav-link" to="/dashboard">Dashboard</Link>
             <Link className="nav-link" to="/friend">
               Friends
               <span class="badge badge-pill bg-light align-text-bottom">27</span>

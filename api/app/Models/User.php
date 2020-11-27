@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function friends(){
         return $this->hasMany('App\Models\Friend');
     }
+
+    public function dashboards(){
+        return $this->hasMany('App\Models\Dashboard');
+    }
 }

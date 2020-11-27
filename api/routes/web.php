@@ -50,3 +50,4 @@ Route::post('/friend-delete-{id}', [FriendController::class, 'deleteFriend']);
 Route::post('/friend-{id}', [FriendController::class, 'friendAccept']);
 // EVENT
 Route::get('/dashboard', [DashboardController::class, 'all']);
+Route::post('/dashboard', [DashboardController::class, 'post']);

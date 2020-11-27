@@ -31,44 +31,25 @@ export class Dashboard extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            post: ''
+            post: '',
+            contents: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePostChange = this.handlePostChange.bind(this);
     }
 
     componentDidMount(){
-        // let url = "http://127.0.0.1:6001/socket.io/socket.io.js";
+        // let url = "http://127.0.0.1:3001/.well-know/mercure";
         Axios.get('http://127.0.0.1:8000/dashboard/', {withCredentials: true})
           .then((res) => {
-              console.log('all', res)
-              
+              console.log('all', res.data.all_posts)
+              this.setState({
+                  contents: JSON.stringify(res.data.all_posts)
+              })
           })
           .catch((error) => {
               
           })
-        // Axios.get(url, {withCredentials: true})
-        // .then((res) => {
-        //     console.log('url', res)
-        // })
-        // .catch((error) => {
-            
-        // })
-        let echo = new Echo({
-            broadcaster: 'socket.io',
-            host: 'ws://127.0.0.1:6001',  
-            // host: window.location.hostname + ':6001',
-            client: Socketio,
-            auth: {
-                headers: {
-                    'Authorization': 'Bearer ' + this.props.token,
-                },
-            },
-        });
-        echo.private('chan-demo');
-        echo.channel('chan-test').listen('PostCreatedEvent', (e) => {
-            console.log(e)
-        })
     }
 
     handlePostChange(event) {
@@ -81,23 +62,28 @@ export class Dashboard extends Component{
         event.preventDefault();
         let data = new FormData()
         data.set('post', this.state.post);
-        // Axios.post('http://127.0.0.1:8000/dashboard/', data, {withCredentials: true})
-        //     .then(res => {
-        //       console.log('res')
-        //     }).catch( error => {
-        //         console.log(error)
-        //     })
-        // POST
+        Axios.post('http://127.0.0.1:8000/dashboard/', data, {withCredentials: true})
+            .then(res => {
+                console.log('res', res)
+            }).catch( error => {
+                console.log(error)
+            })
+        // GET
         Axios.get('http://127.0.0.1:8000/dashboard/', {withCredentials: true})
-        .then((res) => {
-            // console.log('all', res)
-        })
-        .catch((error) => {
-            
-        })
+            .then((res) => {
+              console.log('all', res.data.all_posts)
+              this.setState({
+                  contents: JSON.stringify(res.data.all_posts)
+              })
+            })
+            .catch((error) => {
+                
+            })
     }
 
     render(){
+        let contents = this.state.contents;
+        console.log('state', contents)
         return <React.Fragment>
             <body id="body">
                 <PartialNavbar />
@@ -113,9 +99,20 @@ export class Dashboard extends Component{
                     <a className="nav-link" href="#">Suggestions</a>
                     </nav>
                 </div>
-                <div>Dashboard</div>
                 <div class="" id="wall-conversation">
-                    
+
+                { this.state.contents !== '' && 
+                    Object.keys(JSON.parse(this.state.contents)).map((key) =>
+                        <div id={key}>
+                            <p><strong>
+                            { JSON.parse(this.state.contents)[key].firstname }
+                            { JSON.parse(this.state.contents)[key].lastname }
+                            </strong></p>
+                            <p>{ JSON.parse(this.state.contents)[key].content }</p>
+                        </div>
+                    )
+                }
+
                 </div>
                 <div class="" id="form">
                 <form className="p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit} id="form-form">

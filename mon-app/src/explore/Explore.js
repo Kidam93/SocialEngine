@@ -24,7 +24,7 @@ export class Explore extends Component{
         super(props);
         this.state = {
             searchBar: '',
-            all: localStorage.getItem('search')
+            all: ''
         };
 
         this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
@@ -110,7 +110,7 @@ export class Explore extends Component{
         <div class="nav-scroller bg-white shadow-sm">
           <nav class="nav nav-underline">
             <Link class="nav-link" to="/profil">Profil</Link>
-            <a class="nav-link active" href="#">Dashboard</a>
+            <Link className="nav-link" to="/dashboard">Dashboard</Link>
             <Link className="nav-link" to="/friend">
               Friends
               <span class="badge badge-pill bg-light align-text-bottom">27</span>
@@ -130,7 +130,8 @@ export class Explore extends Component{
 
             {/* card */}
             <div class="row row-cols-1 row-cols-md-4" id="exp-container">
-            {Object.keys(JSON.parse(this.state.all)).map((key) =>
+            { this.state.all !== '' &&
+            Object.keys(JSON.parse(this.state.all)).map((key) =>
                 <div class="col mb-4" id="global">
                     <Link className="nav-link" to={`/user-`+JSON.parse(this.state.all)[key].id}>
                     <div class="card" id="card">
@@ -145,7 +146,8 @@ export class Explore extends Component{
                     </div>
                     </Link>
                 </div>
-            )}
+            )
+            }
             </div>
             {/* end card */}
 
