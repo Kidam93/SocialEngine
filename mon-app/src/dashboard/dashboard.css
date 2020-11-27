@@ -1,29 +1,42 @@
-*, html{
-    margin: 0;
-    padding: 0;
-}
 #body{
     margin: 0px;
     padding: 0px;
 }
+#navbar{
+    z-index: 1000;
+}
 #wall-conversation{
-    height: calc(100vh - 310px);
+    z-index: -1000;
+    position: absolute;
+    top: 96px;
+    height: calc(100vh - 96px);
+    width: 100%;
+    overflow-y: scroll;
+    background-color: #F8F9FA;
+    /* height: 700px; */
+    padding: 10px;
 }
 #form{
+    overflow-y: hidden;
+    position: absolute;
+    top: calc(100vh - 150px);
     height: 150px;
+    width: calc(100vw);
     margin: 0px;
     padding: 0px;
+    background-color: black;
 }
 #form-form{
     margin: 0px;
     padding: 0px;
+    background-color: black;
 }
 textarea{
     margin: 0px;
     padding: 0px;
 }
-@media screen and (min-width: 500px) {
+/* @media screen and (min-width: 500px) {
     #wall-conversation{
         height: calc(100vh - 270px);
     }
-}
+} */

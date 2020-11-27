@@ -193,14 +193,14 @@ async handleAcceptUserSubmit(event){
           <div className="media text-muted pt-3">
           <div className="container">
             {/* POSTS */}
-            {/* {!this.state.posts_user && 
+            {this.state.posts_user !== '' && 
             Object.keys(this.state.posts_user).map((key) => 
               <div className="border-bottom border-gray" id="content-post">
                 <p>{ this.state.posts_user[key].content }</p>
                 <Link class="nav-link" to={'profil-delete-'+this.state.posts_user[key].id}>Delete</Link>
               </div>
             )
-            } */}
+            }
 
             {/* END POSTS */}
             </div>

@@ -86,7 +86,7 @@ export class Dashboard extends Component{
         console.log('state', contents)
         return <React.Fragment>
             <body id="body">
-                <PartialNavbar />
+                <div id="navbar"><PartialNavbar /></div>
                 <div className="nav-scroller bg-white shadow-sm">
                     <nav className="nav nav-underline">
                     <Link className="nav-link" to="/profil">Profil</Link>
@@ -104,10 +104,8 @@ export class Dashboard extends Component{
                 { this.state.contents !== '' && 
                     Object.keys(JSON.parse(this.state.contents)).map((key) =>
                         <div id={key}>
-                            <p><strong>
-                            { JSON.parse(this.state.contents)[key].firstname }
-                            { JSON.parse(this.state.contents)[key].lastname }
-                            </strong></p>
+                            <small><strong>{ JSON.parse(this.state.contents)[key].firstname } { JSON.parse(this.state.contents)[key].lastname } </strong></small>
+                            <small>{ JSON.parse(this.state.contents)[key].created_at }</small>
                             <p>{ JSON.parse(this.state.contents)[key].content }</p>
                         </div>
                     )
@@ -115,10 +113,10 @@ export class Dashboard extends Component{
 
                 </div>
                 <div class="" id="form">
-                <form className="p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit} id="form-form">
-                    <textarea className="posts" placeholder="your post here.." name="post" value={this.state.post} onChange={this.handlePostChange}></textarea>
-                    <button type="submit" class="btn btn-success">Ok</button>
-                </form>
+                    <form className="p-3 bg-white rounded shadow-sm" onSubmit={this.handleSubmit} id="form-form">
+                        <textarea className="posts" placeholder="your post here.." name="post" value={this.state.post} onChange={this.handlePostChange}></textarea>
+                        <button type="submit" class="btn btn-success">Ok</button>
+                    </form>
                 </div>
             </body>
         </React.Fragment>

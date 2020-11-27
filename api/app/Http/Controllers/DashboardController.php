@@ -61,7 +61,7 @@ class DashboardController extends Controller
     }
 
     private static function myPost(){
-        return DB::select(DB::raw("SELECT * 
+        return DB::select(DB::raw("SELECT *, dashboard.created_at 
                 FROM dashboard
                 JOIN users ON (dashboard.user_id = users.id)"));
     }
