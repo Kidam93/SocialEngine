@@ -48,8 +48,9 @@ export class User extends Component {
                   created: res.data.user[0].created_at,
                   describe: res.data.user[0].describe,
                   is_friend: null,
+                  posts_user: res.data.posts
                 })
-                console.log('res dataa', res.data.user[0])
+                console.log('res dataa', res.data.posts)
                 // IF FRIEND OR NOT
                 if(res.data.is_friend[0].confirmed === 1){
                   this.setState({
@@ -359,13 +360,15 @@ export class User extends Component {
         <div className="my-3 p-3 bg-white rounded shadow-sm">
           <h6 className="border-bottom border-gray pb-2 mb-0">Recent posts</h6>
             <div className="media text-muted pt-3">
-            <div className="container">
-            {Object.keys(this.state.posts_user).map((key) => 
+              <div className="container">
+              { this.state.posts_user !== '' &&
+                Object.keys(this.state.posts_user).map((key) => 
                 <div className="border-bottom border-gray" id="content-post">
                   <p>{ this.state.posts_user[key].content }</p>
                   <Link class="nav-link" to={'profil-delete-'+this.state.posts_user[key].id}>Delete</Link>
                 </div>
-              )}
+                )
+              }
               </div>
             </div>
         </div>

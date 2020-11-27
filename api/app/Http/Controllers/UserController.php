@@ -17,7 +17,6 @@ class UserController extends Controller
 
     public function user($idUser){
         if($this->request->session()->get('user')){
-            // $id = $this->request->session()->get('user')->id;
             $user = DB::table('users')->where('id', $idUser)
                 ->select('id', 'firstname', 'lastname', 'img', 'describe', 'created_at')->get();
             // IF FRIEND OR NOT ?
@@ -25,10 +24,17 @@ class UserController extends Controller
             $isFriend = self::isFriend($id, $idUser);
             $verify = self::isFriendVerify($id, $idUser);
             $myInvitation = self::myInvitation($id, $idUser);
+            // FIND POST OF USER
+            $posts = self::findPosts($idUser);
+            // 
             if(empty($verify)){
                 return response()->json(['user' => $user, 'is_friend' => null]);
             }else{
-                return response()->json(['user' => $user, 'is_friend' => $verify, 'accept' => $myInvitation, 'id' => $id]);
+                if(empty($isFriend)){
+                    return response()->json(['user' => $user, 'is_friend' => $verify, 'accept' => $myInvitation, 'id' => $id, 'posts' => false]);
+                }else{
+                    return response()->json(['user' => $user, 'is_friend' => $verify, 'accept' => $myInvitation, 'id' => $id, 'posts' => $posts]);
+                }
             }
         }else{
             return response()->json(['error' => 'redirect']);
@@ -84,5 +90,11 @@ class UserController extends Controller
                 AND friend.friend_id = $id))
                 AND users.id != $id
                 AND friend.confirmed = 0"));
+    }
+
+    private static function findPosts($idUser){
+        return DB::select(DB::raw("SELECT *
+                FROM posts
+                WHERE posts.user_id = $idUser"));
     }
 }
